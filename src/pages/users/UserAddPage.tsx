@@ -64,13 +64,13 @@ function UserAddPage() {
 <div className="tw-mt-4">
 <a href="#" className="tw-text-primary tw-underline tw-w-[140px] tw-text-[14px] ">Data Import/Export</a>
 </div>
-    <div className="tw-mt-8 tw-bg-white tw-p-8 tw-rounded-lg tw-shadow-lg tw-border tw-w-[693px] tw-h-[413px] tw-border-gray-300">
+    <div className="tw-mt-8 tw-bg-white tw-p-8 tw-rounded-lg tw-shadow-lg tw-border tw-w-[750px] tw-h-[413px] tw-border-gray-300 tw-pt-5">
       
-      <hr className="tw-mt-2 tw-border-t tw-border-gray-300 tw-w-[632px] tw-pb-4 " />
+      {/* <hr className="tw-mt-2 tw-border-t tw-border-gray-300 tw-w-[632px] tw-pb-4 " /> */}
       <Form {...form}>
         <div className="tw-w-[616px] tw-h-[176px]">
           <div className="tw-grid tw-grid-cols-2 tw-gap-4">
-            <div className="tw-w-[286px] tw-h-[46px] tw-gap-[8px]">
+            <div className="tw-w-[286px] tw-h-[46px]  tw-gap-[8px]">
               <label className="tw-block tw-text-[12px] tw-font-medium tw-leading-[24px] tw-tracking-[-0.025em] tw-text-left tw-text-[#424242]">
                 Full Name
               </label>
@@ -105,7 +105,7 @@ function UserAddPage() {
                 className="tw-w-[286px] tw-h-[30px] tw-radius-[4px] tw-text-[#020202]"
               />
             </div>
-            <div className="tw-w-[286px] tw-h-[46px] tw-gap-[8px]">
+            <div className="tw-w-[286px] tw-h-[46px] tw-gap-[8px] tw-ml-12 ">
               <Popover>
                 <label className="tw-block tw-text-[12px] tw-font-medium tw-leading-[24px] tw-tracking-[-0.025em] tw-text-left tw-text-[#050505]">
                   Joining Date
@@ -113,7 +113,7 @@ function UserAddPage() {
                 <PopoverTrigger asChild>
                   <Button
                     variant={"outline"}
-                    className="tw-w-[286px] tw-h-[30px] tw-radius-[4px] tw-text-[#0f0f0f]"
+                    className="tw-w-[286px] tw-h-[30px] tw-radius-[4px] tw-text-[#0f0f0f] !tw-border-gray-300"
                   >
                     <CalendarIcon className="tw-mr-2 tw-h-4 tw-w-4" />
                     {date ? format(date, "dd/MM/yyyy") : "Select Date"}
@@ -142,7 +142,7 @@ function UserAddPage() {
                 className="tw-w-[286px] tw-h-[30px] tw-radius-[4px] tw-text-[#BDBDBD]"
               />
             </div>
-            <div>
+            <div className="tw-w-[286px] tw-h-[46px] tw-gap-[8px] tw-ml-12 ">
               <label className="tw-block tw-text-sm tw-font-medium tw-text-gray-700">
                 Assign Role
               </label>
@@ -160,7 +160,7 @@ function UserAddPage() {
           </div>
         </div>
 
-        <div className="tw-flex tw-items-center tw-space-x-4 tw-mt-4">
+        <div className="tw-flex tw-items-center tw-space-x-4 tw-mt-8">
           <div className="tw-w-[346px] tw-flex tw-gap-[8px]">
             <input
               type="checkbox"
@@ -171,44 +171,46 @@ function UserAddPage() {
             </span>
           </div>
 
-          <div className="tw-flex tw-gap-4">
-            <FormField
-              control={form.control}
-              name="active"
-              render={({ field }) => (
-                <FormItem className="tw-flex tw-items-center tw-gap-2">
-                  <FormControl>
-                    <Checkbox
-                      checked={field.value}
-                      onCheckedChange={(checked) => {
-                        field.onChange(checked || false);
-                        if (checked) form.setValue("inactive", false);
-                      }}
-                    />
-                  </FormControl>
-                  <p>Active</p>
-                </FormItem>
-              )}
-            />
-            <FormField
-              control={form.control}
-              name="inactive"
-              render={({ field }) => (
-                <FormItem className="tw-flex tw-items-center tw-gap-2">
-                  <FormControl>
-                    <Checkbox
-                      checked={field.value}
-                      onCheckedChange={(checked) => {
-                        field.onChange(checked || false);
-                        if (checked) form.setValue("active", false);
-                      }}
-                    />
-                  </FormControl>
-                  <p>Inactive</p>
-                </FormItem>
-              )}
-            />
-          </div>
+         <div className="tw-flex tw-gap-4">
+  <FormField
+    control={form.control}
+    name="active"
+    render={({ field }) => (
+      <FormItem className="tw-flex tw-items-center tw-gap-2">
+        <FormControl>
+          <Checkbox
+            checked={field.value}
+            onCheckedChange={(checked) => {
+              field.onChange(checked || false);
+              if (checked) form.setValue("inactive", false);
+            }}
+          />
+        </FormControl>
+        <span className="tw-text-[13px]">Active</span>
+      </FormItem>
+    )}
+  />
+  <FormField
+    control={form.control}
+    name="inactive"
+    render={({ field }) => (
+      <FormItem className="tw-flex tw-items-center tw-gap-2">
+        <FormControl>
+          <Checkbox
+            checked={field.value}
+            onCheckedChange={(checked) => {
+              field.onChange(checked || false);
+              if (checked) form.setValue("active", false);
+            }}
+          />
+        </FormControl>
+        <span className="tw-text-[13px]">Inactive</span>
+      </FormItem>
+    )}
+  />
+</div>
+
+
         </div>
 
         <div className="tw-flex tw-justify-between tw-items-center tw-mt-5">
@@ -222,7 +224,7 @@ function UserAddPage() {
         </div>
         <Button
           variant="default"
-          className="tw-bg-primary tw-text-white tw-rounded-md tw-px-4 tw-py-2 tw-mt-2"
+          className="tw-bg-primary tw-text-white tw-rounded-md tw-px-4 tw-py-2 tw-mt-5"
         >
           Submit
         </Button>
