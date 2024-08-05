@@ -433,7 +433,7 @@ if (currentView === 'add') {
 
 
 
-    <Input className='tw-bg-white tw-h-[35px]  tw-left-[2px] tw-w-[210px]' type="email" placeholder="Write" />
+    <Input className='tw-bg-white tw-h-[35px]  tw-left-[2px] tw-w-[310px]' type="text" placeholder="Write" />
         </div>
         <div className="tw-flex tw-justify-end tw-gap-4 ">
           <a href="#" className="tw-text-primary tw-underline tw-mt-2 tw-h-[17px]  tw-text-[16px]">Data Import/Export</a>
