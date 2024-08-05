@@ -404,9 +404,9 @@ if (currentView === 'add') {
 
       <div className="tw-flex tw-justify-between tw-items-center tw-mb-4  ">
         
-        <div className="tw-flex tw-gap-1">
+        <div className="tw-flex tw-gap-1 tw-w-[430px]">
         <Select>
-  <SelectTrigger className="tw-bg-white tw-h-[33px] tw-text-primary tw-w-[120px] ">
+  <SelectTrigger className="tw-bg-white tw-h-[33px] tw-w-[130px] tw-text-primary  ">
     <SelectValue placeholder="Filters" />
   </SelectTrigger>
   <SelectContent>
@@ -420,7 +420,7 @@ if (currentView === 'add') {
   </SelectContent>
 </Select>
         <Select>
-  <SelectTrigger className=" tw-bg-white tw-h-[35px] tw-text-primary tw-w-[110px]">
+  <SelectTrigger className=" tw-bg-white tw-h-[35px] tw-w-[105px] tw-text-primary ">
     <SelectValue placeholder="Contains" />
   </SelectTrigger>
   <SelectContent>
@@ -433,7 +433,7 @@ if (currentView === 'add') {
 
 
 
-    <Input className='tw-bg-white tw-h-[35px]  tw-left-[2px] tw-w-[310px]' type="text" placeholder="Write" />
+    <Input className='tw-bg-white tw-h-[35px] tw-w-[180px] tw-left-[2px] ' type="text" placeholder="Write" />
         </div>
         <div className="tw-flex tw-justify-end tw-gap-4 ">
           <a href="#" className="tw-text-primary tw-underline tw-mt-2 tw-h-[17px]  tw-text-[16px]">Data Import/Export</a>
