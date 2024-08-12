@@ -1,12 +1,28 @@
+//add user page
+
 import * as React from "react";
+import { Separator } from "@/components/ui/separator"
+import { useState, useEffect } from "react";
 import { format } from "date-fns";
 import { Calendar as CalendarIcon } from "lucide-react";
 import { Input } from "@/components/ui/input";
-import { Checkbox } from "@/components/ui/checkbox";
+import { RadioGroup, RadioGroupItem } from "@/components/ui/radio-group";
 import { useForm } from "react-hook-form";
 import { z } from "zod";
 import { zodResolver } from "@hookform/resolvers/zod";
 import PhoneInput from "@/components/ui/phone-input";
+import { Checkbox } from "@/components/ui/checkbox";
+import { CircleCheck } from 'lucide-react';
+import { X } from 'lucide-react';
+import {
+  AlertDialog,
+  AlertDialogAction,
+  AlertDialogContent,
+  AlertDialogDescription,
+  AlertDialogFooter,
+  AlertDialogHeader,
+  AlertDialogTitle,
+} from "@/components/ui/alert-dialog";
 import {
   Form,
   FormField,
@@ -17,65 +33,104 @@ import {
 } from "@/components/ui/form";
 import { Button } from "@/components/ui/button";
 import { Calendar } from "@/components/ui/calendar";
-import { isValidPhoneNumber, parsePhoneNumber } from "react-phone-number-input";
 import {
   Popover,
   PopoverContent,
   PopoverTrigger,
 } from "@/components/ui/popover";
-import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from "@/components/ui/select";
+import {
+  Select,
+  SelectContent,
+  SelectItem,
+  SelectTrigger,
+  SelectValue,
+} from "@/components/ui/select";
+import { parsePhoneNumber } from "libphonenumber-js";
+// import { Separator } from "@radix-ui/react-separator";
 
 // Form schema definition
-const formSchema = z.object({
-  username: z.string().min(2, {
-    message: "Username must be at least 2 characters.",
+const userSchema = z.object({
+  fullName: z.string().min(2, "Full Name is required"),
+  contactDetails: z.object({
+    dialingCode: z.string().min(1, "Country code is required."),
+    phone: z.string().min(1, "Phone number is required."),
   }),
-  contactPhoneNumber: z.object({
-    countryCode: z.string().min(1, {
-      message: "Country code is required.",
-    }),
-    number: z.string().min(10, {
-      message: "Contact number must be at least 10 digits.",
-    }),
+  emailAddress: z.string().email("Email address required"),
+  company: z.string().min(2, "Organization is required."),
+  designation: z.string(),
+  joiningDate: z.date().optional().refine(date => date != null, {
+    message: "Joining Date is required"
   }),
-  active: z.boolean(),
-  inactive: z.boolean(),
+  status: z.enum(["active", "inactive"]),
 });
 
-const handlePhoneChange = () => {
-  const number = form.getValues("contactPhoneNumber.number");
-  if (isValidPhoneNumber(number)) {
-    const phoneNumber = parsePhoneNumber(number);
-    form.setValue("contactPhoneNumber.countryCode", +phoneNumber.countryCallingCode);
-    form.setValue("contactPhoneNumber.number", phoneNumber.nationalNumber);
+// Phone number handling
+const handlePhoneChange = (formHandler) => {
+  const phoneNumber = formHandler.getValues("contactDetails.phone");
+  if (phoneNumber) {
+    try {
+      const parsedNumber = parsePhoneNumber(phoneNumber);
+      formHandler.setValue("contactDetails.dialingCode", parsedNumber.countryCallingCode);
+      formHandler.setValue("contactDetails.phone", parsedNumber.formatInternational()); // Retain international format
+    } catch (error) {
+      console.error("Invalid phone number", error);
+    }
   }
 };
 
 function UserAddPage() {
-  const [date, setDate] = React.useState<Date>();
+  const [selectedDate, setSelectedDate] = useState<Date | undefined>();
+  const [isDialogOpen, setIsDialogOpen] = useState(false);
+  const [autoGeneratePassword, setAutoGeneratePassword] = useState(false);
 
-  // Initialize form with react-hook-form and zod validation
-  const form = useForm({
-    resolver: zodResolver(formSchema),
+  const formInstance = useForm({
+    resolver: zodResolver(userSchema),
     defaultValues: {
-      username: "",
-      contactPhoneNumber: {
-        countryCode: "",
-        number: "",
+      fullName: "",
+      contactDetails: {
+        dialingCode: "",
+        phone: "",
       },
-      active: false,
-      inactive: false,
+      emailAddress: "",
+      company: "",
+      designation: "",
+      joiningDate: undefined,
+      status: "active",
     },
   });
 
-  const watchActive = form.watch("active");
-  const watchInactive = form.watch("inactive");
+  const { handleSubmit, reset, watch, formState, setValue, clearErrors } = formInstance;
+  const observedStatus = watch("status");
 
-  React.useEffect(() => {
-    if (watchActive && watchInactive) {
-      form.setValue("inactive", false);
+  useEffect(() => {
+    handlePhoneChange(formInstance);
+  }, [formInstance]);
+
+  const handleFormSubmit = (data) => {
+    console.log(data);
+    if (autoGeneratePassword){
+      setIsDialogOpen(true);
+    } else {
+      reset({
+        fullName: "",
+        contactDetails: {
+          dialingCode: "",
+          phone: "",
+        },
+        emailAddress: "",
+        company: "",
+        designation: "",
+        joiningDate: undefined,
+        status: "active",
+      });
+      setSelectedDate(undefined);
+      setAutoGeneratePassword(false);
     }
-  }, [watchActive, watchInactive, form]);
+  };
+
+  const closeAlertDialog = () => {
+    setIsDialogOpen(false);
+  };
 
   return (
     <>
@@ -85,181 +140,245 @@ function UserAddPage() {
       <div className="tw-mt-4">
         <a href="#" className="tw-text-primary tw-underline tw-w-[200px] tw-text-[14px]">Data Import/Export</a>
       </div>
-      <div className="tw-mt-8 tw-bg-white tw-p-8 tw-rounded-lg tw-shadow-lg tw-border tw-w-[770px] tw-h-[413px] tw-border-gray-300">
-        {/* <hr className="tw-mt-2 tw-border-t tw-border-gray-300 tw-w-[700px] tw-pb-4" /> */}
-        <Form {...form}>
-          <div className="tw-w-[616px] tw-h-[176px]">
-            <div className="tw-grid tw-grid-cols-2 tw-gap-4">
-              <div className="tw-w-[340px] tw-h-[46px] tw-gap-[8px]">
-                <label className="tw-block tw-text-[12px] tw-font-medium tw-leading-[24px] tw-tracking-[-0.025em] tw-text-left tw-text-[#030303]">
-                  Full Name
-                </label>
-                <Input
-                  type="text"
-                  placeholder="First Name"
-                  className="tw-w-[330px] tw-h-[40px] tw-radius-[4px] tw-text-[#BDBDBD]"
-                  {...form.register("username")}
-                />
+      <div className="tw-mt-8 tw-bg-white tw-p-8 tw-rounded-lg tw-shadow-lg tw-border tw-w-[770px] tw-h-[450px] tw-border-gray-300">
+        <Form {...formInstance}>
+          <form onSubmit={handleSubmit(handleFormSubmit)}>
+            <div className="tw-w-[616px] tw-h-[176px]">
+              <div className="tw-grid tw-grid-cols-2 tw-gap-4">
+                <div className="tw-w-[340px] tw-h-[46px] tw-gap-[8px]">
+                  <FormLabel className="tw-block tw-text-[12px] tw-mb-1 tw-font-medium tw-leading-[24px] tw-tracking-[-0.025em] tw-text-left tw-text-[#030303]">
+                    Full Name
+                  </FormLabel>
+                  <Input
+                    type="text"
+                    placeholder="Full Name"
+                    className="tw-w-[330px] tw-h-[40px] tw-radius-[4px] tw-text-[#070707]"
+                    {...formInstance.register("fullName")}
+                    onChange={() => clearErrors("fullName")}
+                  />
+                  <FormMessage className="tw-text-red-500">
+                    {formState.errors.fullName?.message?.toString()}
+                  </FormMessage>
+                </div>
+                <div className="tw-flex tw-flex-col tw-gap-[8px] tw-ml-14 tw-w-[340px] tw-mt-[-8px]">
+                  <FormField
+                    control={formInstance.control}
+                    name="contactDetails.phone"
+                    render={({ field }) => (
+                      <FormItem className="tw-w-full">
+                        <FormLabel htmlFor="phoneNumber" className="tw-block tw-text-[10px] tw-font-medium tw-font-extend tw-leading-[24px] tw-tracking-[-0.025em] tw-text-left tw-text-[#030303] tw-mt-2">
+                          Phone Number
+                        </FormLabel>
+                        <FormControl className="tw-w-full">
+                          <PhoneInput
+                            international
+                            id="phoneNumber"
+                            placeholder="Enter a phone number"
+                            className="tw-w-[330px] tw-h-[40px] tw-mt-1"
+                            value={field.value}
+                            onChange={(value) => {
+                              field.onChange(value);
+                              clearErrors("contactDetails.phone");
+                            }}
+                            onBlur={() => {
+                              handlePhoneChange(formInstance); // Ensure the flag and country code are retained
+                            }}
+                            defaultCountry="IN" // You can set a default country
+                          />
+                        </FormControl>
+                        <FormMessage className="tw-text-red-500">
+                          {formState.errors.contactDetails?.phone?.message?.toString()}
+                        </FormMessage>
+                      </FormItem>
+                    )}
+                  />
+                </div>
               </div>
-              <div className="tw-flex tw-flex-col tw-gap-[8px] tw-ml-14 tw-w-[340px]">
+
+              <div className="tw-grid tw-grid-cols-2 tw-gap-4 tw-mt-4">
+                <div className="tw-w-[340px] tw-h-[46px] tw-gap-[8px] tw-bg-white">
+                  <FormLabel className="tw-block tw-text-[12px]  tw-mb-1 tw-font-medium tw-leading-[24px] tw-tracking-[-0.025em] tw-text-left tw-text-[#030303]">
+                    Email ID
+                  </FormLabel>
+                  <Input
+                    type="email"
+                    placeholder="yourname@gmail.com"
+                    className="tw-w-[330px] tw-h-[40px] tw-radius-[4px] tw-text-[#020202]"
+                    {...formInstance.register("emailAddress")}
+                    onChange={() => clearErrors("emailAddress")}
+                  />
+                  <FormMessage className="tw-text-red-500">
+                    {formState.errors.emailAddress?.message?.toString()}
+                  </FormMessage>
+                </div>
+                <div className="tw-w-[340px] tw-h-[46px] tw-gap-[8px] tw-ml-14 tw-mt-[-5.2px]">
+                  <Popover>
+                  <FormLabel htmlFor="phoneNumber" className="tw-block  tw-mb-1 tw-text-[10px] tw-font-medium tw-font-extend tw-leading-[24px] tw-tracking-[-0.025em] tw-text-left tw-text-[#030303] tw-mt-1">
+                          Joining Date
+                        </FormLabel>
+                    <PopoverTrigger asChild>
+                      <Button
+                        variant={"outline"}
+                        className="tw-w-[337px] tw-h-[40px] tw-radius-[4px] tw-gap-[180px]  tw-text-[#0f0f0f]"
+                      >
+                        {selectedDate ? format(selectedDate, "dd/MM/yyyy") : "Select Date"}
+                        <CalendarIcon className="tw-mr-1 tw-h-4 tw-w-4" />
+                      </Button>
+                    </PopoverTrigger>
+                    <PopoverContent className="tw-w-auto tw-p-0">
+                    <Calendar
+                        mode="single"
+                        selected={selectedDate}
+                        onSelect={(date) => {
+                          setSelectedDate(date || null);
+                          setValue("joiningDate", date || null, { shouldValidate: true });
+                        }}
+                        initialFocus
+                      />
+                    </PopoverContent>
+                    <FormMessage className="tw-text-red-500">
+                    {formState.errors.joiningDate?.message?.toString()}
+                    </FormMessage>
+                  </Popover>
+                </div>
+              </div>
+
+              <div className="tw-grid tw-grid-cols-2 tw-gap-4 tw-mt-4">
+                <div className="tw-w-[340px] tw-h-[46px] tw-gap-[8px] tw-mt-4">
+                  <FormLabel className="tw-block tw-text-[12px] tw-mb-1 tw-font-medium tw-leading-[24px] tw-tracking-[-0.025em] tw-text-left tw-text-[#030303]">
+                    Organization
+                  </FormLabel>
+                  <Input
+                    type="text"
+                    placeholder="Organization Name"
+                    className="tw-w-[330px] tw-h-[40px] tw-radius-[4px] tw-text-[#070707]"
+                    {...formInstance.register("company")}
+                    onChange={() => clearErrors("company")}
+                  />
+                  <FormMessage className="tw-text-red-500">
+                    {formState.errors.company?.message?.toString()}
+                  </FormMessage>
+                </div>
+                <div className="tw-ml-14 tw-mt-4 tw-w-[340px]">
+                  <FormLabel className="tw-block  tw-mb-1 tw-text-[12px] tw-font-medium tw-leading-[24px] tw-tracking-[-0.025em] tw-text-left tw-text-[#030303]">
+                    Assign Role
+                  </FormLabel>
+                  <FormField
+                    control={formInstance.control}
+                    name="designation"
+                    render={({ field }) => (
+                      <FormItem>
+                        <FormControl>
+                          <Select {...field} value={field.value || ""} onValueChange={field.onChange}>
+                            <SelectTrigger className="tw-bg-white tw-h-[40px] tw-w-[330px] tw-text-primary">
+                              <SelectValue placeholder="Admin" />
+                            </SelectTrigger>
+                            <SelectContent>
+                              <SelectItem value="admin">Admin</SelectItem>
+                              <SelectItem value="super-admin">Super Admin</SelectItem>
+                              <SelectItem value="faculty">Faculty</SelectItem>
+                            </SelectContent>
+                          </Select>
+                        </FormControl>
+                        <FormMessage>
+                          {formState.errors.designation?.message?.toString()}
+                        </FormMessage>
+                      </FormItem>
+                    )}
+                  />
+                </div>
+              </div>
+            </div>
+
+            <div className="tw-flex tw-items-center tw-space-x-3 tw-mt-[60px]">
+              <div className="tw-w-[600px] tw-flex tw-gap-[8px]">
+              <Checkbox
+                id="autoGeneratePassword"
+                checked={autoGeneratePassword}
+                onCheckedChange={(checked) => setAutoGeneratePassword(checked)}
+                className="tw-mr-2"
+              />
+
+              <FormLabel htmlFor="autoGeneratePassword" className="tw-text-[12px] tw-w-[410px] tw-font-medium tw-leading-[24px] tw-text-[#0a0a0a]">
+                  Generate new password and notify user immediately
+              </FormLabel>
+              </div>
+              <div className="tw-flex tw-gap-4">
                 <FormField
-                  control={form.control}
-                  name="contactPhoneNumber.number"
+                  control={formInstance.control}
+                  name="status"
                   render={({ field }) => (
-                    <FormItem className="tw-w-full">
-                      <FormLabel htmlFor="number" className="tw-block tw-text-[10px] tw-font-medium tw-font-extend tw-leading-[24px] tw-tracking-[-0.025em] tw-text-left tw-text-[#030303] tw-mt-1">Phone Number</FormLabel>
-                      <FormControl className="tw-w-full">
-                        <div className="tw-w-[340px] tw-h-[30px] tw-radius-[4px] tw-text-[#020202]">
-                        <PhoneInput
-                          international
-                          initialValueFormat="international"
-                          id="number"
-                          placeholder="Enter a phone number"
-                          className="tw-w-[330px] tw-h-[30px] tw-mt-2"
+                    <FormItem className="tw-flex tw-items-center tw-gap-2">
+                      <FormControl>
+                        <RadioGroup
                           value={field.value}
-                          onChange={(value) => field.onChange(value)}
-                          onBlur={handlePhoneChange}
-                        />
-                        </div>
+                          onValueChange={(value) => field.onChange(value)}
+                        >
+                          <div className="tw-flex  tw-mr-[70px] tw-gap-3 tw-ml-1">
+                            <RadioGroupItem
+                              value="active"
+                              id="active"
+                              className="tw-rounded tw-border-gray-300 tw-text-blue-600 tw-focus:ring-blue-500"
+                            />
+                            <label htmlFor="active" className="tw-text-[13px]">Active</label>
+                            <RadioGroupItem
+                              value="inactive"
+                              id="inactive"
+                              className="tw-rounded tw-border-gray-300 tw-text-blue-600 tw-focus:ring-blue-500"
+                            />
+                            <label htmlFor="inactive" className="tw-text-[13px]">Inactive</label>
+                          </div>
+                        </RadioGroup>
                       </FormControl>
-                      <FormMessage>{form.formState.errors.contactPhoneNumber?.number?.message}</FormMessage>
                     </FormItem>
                   )}
                 />
               </div>
             </div>
 
-            <div className="tw-grid tw-grid-cols-2 tw-gap-4 tw-mt-4">
-              <div className="tw-w-[340px] tw-h-[46px] tw-gap-[8px]">
-                <label className="tw-block tw-text-[12px] tw-font-medium tw-leading-[24px] tw-tracking-[-0.025em] tw-text-left tw-text-[#030303]">
-                  Email ID
-                </label>
-                <Input
-                  type="email"
-                  placeholder="yourname@gmail.com"
-                  className="tw-w-[330px] tw-h-[40px] tw-radius-[4px] tw-text-[#020202]"
-                />
-              </div>
-              <div className="tw-w-[340px] tw-h-[46px] tw-gap-[8px] tw-ml-14">
-                <Popover>
-                  <label className="tw-block tw-text-[12px] tw-font-medium tw-leading-[24px] tw-tracking-[-0.025em] tw-text-left tw-text-[#050505]">
-                    Joining Date
-                  </label>
-                  <PopoverTrigger asChild>
-                    <Button
-                      variant={"outline"}
-                      className="tw-w-[330px] tw-h-[40px] tw-radius-[4px] tw-text-[#0f0f0f]"
-                    >
-                      <CalendarIcon className="tw-mr-2 tw-h-4 tw-w-4" />
-                      {date ? format(date, "dd/MM/yyyy") : "Select Date"}
-                    </Button>
-                  </PopoverTrigger>
-                  <PopoverContent className="tw-w-auto tw-p-0">
-                    <Calendar
-                      mode="single"
-                      selected={date}
-                      onSelect={setDate}
-                      initialFocus
-                    />
-                  </PopoverContent>
-                </Popover>
-              </div>
+            <div className="tw-flex tw-justify-between tw-items-center tw-mt-4">
+              <p className="tw-text-[13px] tw-text-primary tw-italic tw-w-[251px] tw-h-[20px] tw-top-[300px] tw-left-[26px] tw-mt-1">
+                All fields are mandatory*
+              </p>
             </div>
-
-            <div className="tw-grid tw-grid-cols-2 tw-gap-4 tw-mt-4">
-              <div className="tw-w-[340px] tw-h-[46px] tw-gap-[8px] tw-mt-2">
-                <label className="tw-block tw-text-[12px] tw-font-medium tw-leading-[24px] tw-tracking-[-0.025em] tw-text-left tw-text-[#030303]">
-                  Organization
-                </label>
-                <Input
-                  type="text"
-                  placeholder="XYZ College"
-                  className="tw-w-[330px] tw-h-[40px] tw-radius-[4px] tw-text-[#BDBDBD]"
-                />
-              </div>
-              <div className="tw-ml-14 tw-mt-2 tw-w-[340px]">
-                <label className="tw-block tw-text-[12px] tw-font-medium tw-leading-[24px] tw-tracking-[-0.025em] tw-text-left tw-text-[#030303] ">
-                  Assign Role
-                </label>
-                <Select>
-                  <SelectTrigger className="tw-bg-white tw-h-[40px] tw-w-[330px] tw-text-primary">
-                    <SelectValue placeholder="Admin" />
-                  </SelectTrigger>
-                  <SelectContent>
-                    <SelectItem value="admin">Admin</SelectItem>
-                    <SelectItem value="super-admin">Super Admin</SelectItem>
-                    <SelectItem value="faculty">Faculty</SelectItem>
-                  </SelectContent>
-                </Select>
-              </div>
+            <div className="tw-mt-2">
+              {/* <hr className="tw-border-t tw-border-gray-300 tw-w-[700px]" /> */}
+              <Separator className="tw-border-t tw-border-gray-300 tw-w-[700px]" />
             </div>
-          </div>
-
-          <div className="tw-flex tw-items-center tw-space-x-4 tw-mt-14">
-            <div className="tw-w-[346px] tw-flex tw-gap-[8px]">
-              <input
-                type="checkbox"
-                className="tw-rounded tw-border-gray-300 tw-text-blue-600 tw-focus:ring-blue-500 tw-w-[16px] tw-h-[16px]"
-              />
-              <span className="tw-w-[322px] tw-text-[12px] tw-font-normal tw-leading-[20px]">
-                Generate new password and notify user immediately
-              </span>
-            </div>
-
-            <div className="tw-flex tw-gap-4">
-              <FormField
-                control={form.control}
-                name="active"
-                render={({ field }) => (
-                  <FormItem className="tw-flex tw-items-center tw-gap-2">
-                    <FormControl>
-                      <Checkbox
-                        checked={field.value}
-                        onCheckedChange={(checked) => {
-                          field.onChange(checked || false);
-                          if (checked) form.setValue("inactive", false);
-                        }}
-                      />
-                    </FormControl>
-                    <p className="tw-text-[13px]">Active</p>
-                  </FormItem>
-                )}
-              />
-              <FormField
-                control={form.control}
-                name="inactive"
-                render={({ field }) => (
-                  <FormItem className="tw-flex tw-items-center tw-gap-2">
-                    <FormControl>
-                      <Checkbox
-                        checked={field.value}
-                        onCheckedChange={(checked) => {
-                          field.onChange(checked || false);
-                          if (checked) form.setValue("active", false);
-                        }}
-                      />
-                    </FormControl>
-                    <p className="tw-text-[13px]">Inactive</p>
-                  </FormItem>
-                )}
-              />
-            </div>
-          </div>
-
-          <div className="tw-flex tw-justify-between tw-items-center tw-mt-5">
-            <p className="tw-text-[13px] tw-text-primary tw-italic tw-w-[251px] tw-h-[20px] tw-top-[300px] tw-left-[26px] tw-mt-1">
-              All fields are mandatory*
-            </p>
-          </div>
-          <div className="tw-mt-2">
-            <hr className="tw-border-t tw-border-gray-300 tw-w-[700px]" />
-          </div>
-          <Button
-            variant="default"
-            className="tw-bg-primary tw-text-white tw-rounded-md tw-px-4 tw-py-2 tw-mt-5"
-          >
-            Submit
-          </Button>
+            <Button
+              type="submit"
+              variant="default"
+              className="tw-bg-primary tw-text-white tw-rounded-md tw-px-4 tw-py-2 tw-mt-5"
+            >
+              Submit
+            </Button>
+            <AlertDialog open={isDialogOpen} onOpenChange={setIsDialogOpen}>
+  <AlertDialogContent className="tw-w-[333px] tw-h-[244px] tw-px-6 tw-py-4 tw-flex tw-flex-col tw-items-center">
+    <div className="tw-ml-[280px]">
+  {/* <X  size={15} className="tw-text-gray-500"/> */}
+  <X size={15} className="tw-text-gray-500 tw-cursor-pointer" onClick={closeAlertDialog} />
+  </div>
+    <div className="tw-ml-[108px]">
+    <CircleCheck className="tw-text-green-500" size={60} />
+    </div>
+    <AlertDialogHeader className="tw-mt-[-20px] tw-text-center">
+      <AlertDialogTitle className="tw-text-lg tw-text-center tw-font-semibold">Completed</AlertDialogTitle>
+      <AlertDialogDescription className="tw-text-center tw-text-sm tw-mt-2">
+        We will share a link at <span className="tw-font-bold">username@gmail.com</span>. 
+        User can click the link to reset password.
+      </AlertDialogDescription>
+    </AlertDialogHeader>
+    <AlertDialogFooter className="tw-w-full tw-pt-0 tw-ml-[-69px] ">
+      <AlertDialogAction
+        onClick={closeAlertDialog}
+        className="tw-bg-blue-500 tw-text-white tw-w-[150px] tw-h-[38px] tw-ml-5 tw-rounded-md tw-text-center"
+      >
+        Continue
+      </AlertDialogAction>
+    </AlertDialogFooter>
+  </AlertDialogContent>
+</AlertDialog>
+</form>
         </Form>
       </div>
     </>

@@ -1,15 +1,15 @@
 import React, { useState } from 'react';
-import UserAddPage from './UserAddPage'
-import { Pencil ,ChevronDown ,ChevronRight,ChevronLeft,Plus} from "lucide-react";
-import { Button } from "@/components/ui/button";
-import { Input } from "@/components/ui/input";
+import UserAddPage from './UserAddPage';
+import { Pencil, Plus } from 'lucide-react';
+import { Button } from '@/components/ui/button';
+import { Input } from '@/components/ui/input';
 import {
   Select,
   SelectContent,
   SelectItem,
   SelectTrigger,
   SelectValue,
-} from "@/components/ui/select"
+} from '@/components/ui/select';
 import {
   Table,
   TableBody,
@@ -18,7 +18,7 @@ import {
   TableHead,
   TableHeader,
   TableRow,
-} from "@/components/ui/table"
+} from '@/components/ui/table';
 import {
   Pagination,
   PaginationContent,
@@ -27,9 +27,10 @@ import {
   PaginationLink,
   PaginationNext,
   PaginationPrevious,
-} from "@/components/ui/pagination"
+} from '@/components/ui/pagination';
 
 const users = [
+  // Your user data
   {
     id: 'AB12456',
     name: 'Scarlett Johansson',
@@ -37,7 +38,16 @@ const users = [
     contact: '+919652358844',
     organization: 'XYZ organization',
     roles: 'Admin',
-    status: 'Active',
+    status: 'Inactive',
+  },
+  {
+    id: 'AB12456',
+    name: 'Scarlett Johansson',
+    email: 'scarlettjohansson@gmail.com',
+    contact: '+919652358844',
+    organization: 'XYZ organization',
+    roles: 'Admin',
+    status: 'Inactive',
   },
   {
     id: 'AB12456',
@@ -64,427 +74,238 @@ const users = [
     contact: '+919652358844',
     organization: 'XYZ organization',
     roles: 'Admin',
+    status: 'Inactive',
+  },
+  {
+    id: 'AB12456',
+    name: 'Scarlett Johansson',
+    email: 'scarlettjohansson@gmail.com',
+    contact: '+919652358844',
+    organization: 'XYZ organization',
+    roles: 'Admin',
+    status: 'Inactive',
+  },
+  {
+    id: 'AB12456',
+    name: 'Scarlett Johansson',
+    email: 'scarlettjohansson@gmail.com',
+    contact: '+919652358844',
+    organization: 'XYZ organization',
+    roles: 'Admin',
+    status: 'Inactive',
+  },
+  {
+    id: 'AB12456',
+    name: 'Scarlett Johansson',
+    email: 'scarlettjohansson@gmail.com',
+    contact: '+919652358844',
+    organization: 'XYZ organization',
+    roles: 'Admin',
+    status: 'Inactive',
+  }, {
+    id: 'AB12456',
+    name: 'Scarlett Johansson',
+    email: 'scarlettjohansson@gmail.com',
+    contact: '+919652358844',
+    organization: 'XYZ organization',
+    roles: 'Admin',
+    status: 'Inactive',
+  },
+
+  {
+    id: '789',
+    name: 'yamuna',
+    email: 'scarlettjohansson@gmail.com',
+    contact: '+919652358844',
+    organization: 'yamuna organization',
+    roles: 'employee',
     status: 'active',
   },
-  {
-    id: 'AB12456',
-    name: 'Scarlett Johansson',
-    email: 'scarlettjohansson@gmail.com',
-    contact: '+919652358844',
-    organization: 'XYZ organization',
-    roles: 'Admin',
-    status: 'Inactive',
-  },
-  {
-    id: 'AB12456',
-    name: 'Scarlett Johansson',
-    email: 'scarlettjohansson@gmail.com',
-    contact: '+919652358844',
-    organization: 'XYZ organization',
-    roles: 'Admin',
-    status: 'Inactive',
-  },
-  {
-    id: 'AB12456',
-    name: 'Scarlett Johansson',
-    email: 'scarlettjohansson@gmail.com',
-    contact: '+919652358844',
-    organization: 'XYZ organization',
-    roles: 'Admin',
-    status: 'Inactive',
-  },
-  {
-    id: 'AB12456',
-    name: 'Scarlett Johansson',
-    email: 'scarlettjohansson@gmail.com',
-    contact: '+919652358844',
-    organization: 'XYZ organization',
-    roles: 'Admin',
-    status: 'Inactive',
-  },
-  {
-    id: 'AB12456',
-    name: 'Scarlett Johansson',
-    email: 'scarlettjohansson@gmail.com',
-    contact: '+919652358844',
-    organization: 'XYZ organization',
-    roles: 'Admin',
-    status: 'Inactive',
-  },
-  {
-    id: 'AB12456',
-    name: 'Scarlett Johansson',
-    email: 'scarlettjohansson@gmail.com',
-    contact: '+919652358844',
-    organization: 'XYZ organization',
-    roles: 'Admin',
-    status: 'Inactive',
-  },
-  {
-    id: 'AB12456',
-    name: 'Scarlett Johansson',
-    email: 'scarlettjohansson@gmail.com',
-    contact: '+919652358844',
-    organization: 'XYZ organization',
-    roles: 'Admin',
-    status: 'Inactive',
-  },  {
-    id: 'AB12456',
-    name: 'Scarlett Johansson',
-    email: 'scarlettjohansson@gmail.com',
-    contact: '+919652358844',
-    organization: 'XYZ organization',
-    roles: 'Admin',
-    status: 'Inactive',
-  },  {
-    id: 'AB12456',
-    name: 'Scarlett Johansson',
-    email: 'scarlettjohansson@gmail.com',
-    contact: '+919652358844',
-    organization: 'XYZ organization',
-    roles: 'Admin',
-    status: 'Inactive',
-  },  {
-    id: 'AB12456',
-    name: 'Scarlett Johansson',
-    email: 'scarlettjohansson@gmail.com',
-    contact: '+919652358844',
-    organization: 'XYZ organization',
-    roles: 'Admin',
-    status: 'Inactive',
-  },  {
-    id: 'AB12456',
-    name: 'Scarlett Johansson',
-    email: 'scarlettjohansson@gmail.com',
-    contact: '+919652358844',
-    organization: 'XYZ organization',
-    roles: 'Admin',
-    status: 'Inactive',
-  },  {
-    id: 'AB12456',
-    name: 'Scarlett Johansson',
-    email: 'scarlettjohansson@gmail.com',
-    contact: '+919652358844',
-    organization: 'XYZ organization',
-    roles: 'Admin',
-    status: 'Inactive',
-  },  {
-    id: 'AB12456',
-    name: 'Scarlett Johansson',
-    email: 'scarlettjohansson@gmail.com',
-    contact: '+919652358844',
-    organization: 'XYZ organization',
-    roles: 'Admin',
-    status: 'Inactive',
-  },  {
-    id: 'AB12456',
-    name: 'Scarlett Johansson',
-    email: 'scarlettjohansson@gmail.com',
-    contact: '+919652358844',
-    organization: 'XYZ organization',
-    roles: 'Admin',
-    status: 'Inactive',
-  },  {
-    id: 'AB12456',
-    name: 'Scarlett Johansson',
-    email: 'scarlettjohansson@gmail.com',
-    contact: '+919652358844',
-    organization: 'XYZ organization',
-    roles: 'Admin',
-    status: 'Inactive',
-  },  {
-    id: 'AB12456',
-    name: 'Scarlett Johansson',
-    email: 'scarlettjohansson@gmail.com',
-    contact: '+919652358844',
-    organization: 'XYZ organization',
-    roles: 'Admin',
-    status: 'Inactive',
-  },  {
-    id: 'AB12456',
-    name: 'Scarlett Johansson',
-    email: 'scarlettjohansson@gmail.com',
-    contact: '+919652358844',
-    organization: 'XYZ organization',
-    roles: 'Admin',
-    status: 'Inactive',
-  },  {
-    id: 'AB12456',
-    name: 'Scarlett Johansson',
-    email: 'scarlettjohansson@gmail.com',
-    contact: '+919652358844',
-    organization: 'XYZ organization',
-    roles: 'Admin',
-    status: 'Inactive',
-  },  {
-    id: 'AB12456',
-    name: 'Scarlett Johansson',
-    email: 'scarlettjohansson@gmail.com',
-    contact: '+919652358844',
-    organization: 'XYZ organization',
-    roles: 'Admin',
-    status: 'Inactive',
-  },  {
-    id: 'AB12456',
-    name: 'Scarlett Johansson',
-    email: 'scarlettjohansson@gmail.com',
-    contact: '+919652358844',
-    organization: 'XYZ organization',
-    roles: 'Admin',
-    status: 'Inactive',
-  },
-  {
-    id: 'AB12456',
-    name: 'Scarlett Johansson',
-    email: 'scarlettjohansson@gmail.com',
-    contact: '+919652358844',
-    organization: 'XYZ organization',
-    roles: 'Admin',
-    status: 'Inactive',
-  },  {
-    id: 'AB12456',
-    name: 'Scarlett Johansson',
-    email: 'scarlettjohansson@gmail.com',
-    contact: '+919652358844',
-    organization: 'XYZ organization',
-    roles: 'Admin',
-    status: 'Inactive',
-  },  {
-    id: 'AB12456',
-    name: 'Scarlett Johansson',
-    email: 'scarlettjohansson@gmail.com',
-    contact: '+919652358844',
-    organization: 'XYZ organization',
-    roles: 'Admin',
-    status: 'Inactive',
-  },  {
-    id: 'AB12456',
-    name: 'Scarlett Johansson',
-    email: 'scarlettjohansson@gmail.com',
-    contact: '+919652358844',
-    organization: 'XYZ organization',
-    roles: 'Admin',
-    status: 'Inactive',
-  },  {
-    id: 'AB12456',
-    name: 'Scarlett Johansson',
-    email: 'scarlettjohansson@gmail.com',
-    contact: '+919652358844',
-    organization: 'XYZ organization',
-    roles: 'Admin',
-    status: 'Inactive',
-  },  {
-    id: 'AB12456',
-    name: 'Scarlett Johansson',
-    email: 'scarlettjohansson@gmail.com',
-    contact: '+919652358844',
-    organization: 'XYZ organization',
-    roles: 'Admin',
-    status: 'Inactive',
-  },  {
-    id: 'AB12456',
-    name: 'Scarlett Johansson',
-    email: 'scarlettjohansson@gmail.com',
-    contact: '+919652358844',
-    organization: 'XYZ organization',
-    roles: 'Admin',
-    status: 'Inactive',
-  },  {
-    id: 'AB12456',
-    name: 'Scarlett Johansson',
-    email: 'scarlettjohansson@gmail.com',
-    contact: '+919652358844',
-    organization: 'XYZ organization',
-    roles: 'Admin',
-    status: 'Inactive',
-  },  {
-    id: 'AB12456',
-    name: 'Scarlett Johansson',
-    email: 'scarlettjohansson@gmail.com',
-    contact: '+919652358844',
-    organization: 'XYZ organization',
-    roles: 'Admin',
-    status: 'Inactive',
-  },  {
-    id: 'AB12456',
-    name: 'Scarlett Johansson',
-    email: 'scarlettjohansson@gmail.com',
-    contact: '+919652358844',
-    organization: 'XYZ organization',
-    roles: 'Admin',
-    status: 'Inactive',
-  },  {
-    id: 'AB12456',
-    name: 'Scarlett Johansson',
-    email: 'scarlettjohansson@gmail.com',
-    contact: '+919652358844',
-    organization: 'XYZ organization',
-    roles: 'Admin',
-    status: 'Inactive',
-  },  {
-    id: 'AB12456',
-    name: 'Scarlett Johansson',
-    email: 'scarlettjohansson@gmail.com',
-    contact: '+919652358844',
-    organization: 'XYZ organization',
-    roles: 'Admin',
-    status: 'Inactive',
-  },  {
-    id: 'AB12456',
-    name: 'Scarlett Johansson',
-    email: 'scarlettjohansson@gmail.com',
-    contact: '+919652358844',
-    organization: 'XYZ organization',
-    roles: 'Admin',
-    status: 'Inactive',
-  }, 
-  {
-    id: 'AB12456',
-    name: 'Scarlett Johansson',
-    email: 'scarlettjohansson@gmail.com',
-    contact: '+919652358844',
-    organization: 'XYZ organization',
-    roles: 'Admin',
-    status: 'Inactive',
-  }, 
-  {
-    id: 'AB12456',
-    name: 'Scarlett Johansson',
-    email: 'scarlettjohansson@gmail.com',
-    contact: '+919652358844',
-    organization: 'XYZ organization',
-    roles: 'Admin',
-    status: 'Inactive',
-  }, 
-  {
-    id: 'AB12456',
-    name: 'Scarlett Johansson',
-    email: 'scarlettjohansson@gmail.com',
-    contact: '+919652358844',
-    organization: 'XYZ organization',
-    roles: 'Admin',
-    status: 'Inactive',
-  }, 
-
-  // Add more users as needed
+  // Other user data...
 ];
 
-
-
-const dataArray = Array.isArray(users) ? users : [];
-const hasUsers = users.length > 0;
 const UserListPage = () => {
   const [currentPage, setCurrentPage] = useState(1);
   const [currentView, setCurrentView] = useState('list');
+  const [filterField, setFilterField] = useState('Organization'); // Default filter field
+  const [filterCondition, setFilterCondition] = useState('contains'); // Default filter condition
+  const [filterQuery, setFilterQuery] = useState(''); // Filter query
   const usersPerPage = 5;
-  
-  // Calculate the current users to display
+
+  // Filtering function
+  const filterUsers = (user) => {
+    const query = filterQuery.toLowerCase();
+
+    switch (filterField) {
+      case 'User ID':
+        return filterCondition === 'contains'
+          ? user.id.toLowerCase().includes(query)
+          : user.id.toLowerCase() === query;
+      case 'Full Name':
+        return filterCondition === 'contains'
+          ? user.name.toLowerCase().includes(query)
+          : user.name.toLowerCase() === query;
+      case 'Status':
+        return filterCondition === 'contains'
+          ? user.status.toLowerCase().includes(query)
+          : user.status.toLowerCase() === query;
+      case 'Organization':
+        return filterCondition === 'contains'
+          ? user.organization.toLowerCase().includes(query)
+          : user.organization.toLowerCase() === query;
+      case 'Roles':
+        return filterCondition === 'contains'
+          ? user.roles.toLowerCase().includes(query)
+          : user.roles.toLowerCase() === query;
+      default:
+        return true;
+    }
+  };
+
+  // Filter users before pagination
+  const filteredUsers = users.filter(filterUsers);
+
+  // Pagination logic
   const indexOfLastUser = currentPage * usersPerPage;
   const indexOfFirstUser = indexOfLastUser - usersPerPage;
-  const currentUsers = users.slice(indexOfFirstUser, indexOfLastUser);
+  const currentUsers = filteredUsers.slice(indexOfFirstUser, indexOfLastUser);
+
+  const totalPages = Math.ceil(filteredUsers.length / usersPerPage);
 
   // Handle page change
   const handlePageChange = (pageNumber) => {
     setCurrentPage(pageNumber);
   };
 
-  // Calculate the total number of pages
-  const totalPages = Math.ceil(users.length / usersPerPage);
-function onEdit(){
+  if (currentView === 'add') {
+    return <UserAddPage />;
+  }
 
-}
-if (currentView === 'add') {
-  return <UserAddPage />;
-}
+  function onEdit() {
+    // Edit logic
+  }
 
+  // Dynamic table height
+  const tableHeight = Math.min(currentUsers.length * 95, 500);
 
   return (
-    <div className="tw-p-8 tw-pl-0 tw-bg-colors tw-min-h-[550px] tw-overflow-hidden ">
+    <div className="tw-p-8 tw-pl-0 tw-bg-colors tw-min-h-[550px] tw-overflow-hidden">
+      <div className="tw-flex tw-justify-between tw-items-center tw-mb-4">
+        <div className="tw-flex tw-gap-2 tw-w-[530px]">
+          <Select onValueChange={setFilterField}>
+            <SelectTrigger className="tw-bg-white tw-h-[33px] tw-w-[165px] tw-text-primary tw-border-[#1D1F71]">
+              <SelectValue placeholder="Filter" />
+            </SelectTrigger>
+            <SelectContent>
+              <SelectItem value="Organization">Organization</SelectItem>
+              <SelectItem value="Roles">Roles</SelectItem>
+              <SelectItem value="User ID">User ID</SelectItem>
+              <SelectItem value="Status">Status</SelectItem>
+              <SelectItem value="Full Name">Full Name</SelectItem>
+            </SelectContent>
+          </Select>
 
+          <Select onValueChange={setFilterCondition}>
+            <SelectTrigger className="tw-bg-white tw-h-[35px] tw-w-[129px] tw-text-primary tw-border-[#1D1F71]">
+              <SelectValue placeholder="Contains" />
+            </SelectTrigger>
+            <SelectContent>
+              <SelectItem value="equals">Equals to</SelectItem>
+              <SelectItem value="startsWith">Starts with</SelectItem>
+              <SelectItem value="contains">Contains</SelectItem>
+            </SelectContent>
+          </Select>
 
-      <div className="tw-flex tw-justify-between tw-items-center tw-mb-4  ">
-        
-        <div className="tw-flex tw-gap-1 tw-w-[430px]">
-        <Select>
-  <SelectTrigger className="tw-bg-white tw-h-[33px] tw-w-[130px] tw-text-primary  ">
-    <SelectValue placeholder="Filters" />
-  </SelectTrigger>
-  <SelectContent>
-    <SelectItem value="Organization">Organzation</SelectItem>
-    <SelectItem value="Roles">Roles</SelectItem>
-    <SelectItem value="status">Status</SelectItem>
-    <SelectItem value="name">Name</SelectItem>
-    <SelectItem value="status">User ID</SelectItem>
-
-
-  </SelectContent>
-</Select>
-        <Select>
-  <SelectTrigger className=" tw-bg-white tw-h-[35px] tw-w-[105px] tw-text-primary ">
-    <SelectValue placeholder="Contains" />
-  </SelectTrigger>
-  <SelectContent>
-    <SelectItem value="light">Equals to</SelectItem>
-    <SelectItem value="dark">Starts with</SelectItem>
-    <SelectItem value="system">Contains</SelectItem>
-  </SelectContent>
-</Select>
-
-
-
-
-    <Input className='tw-bg-white tw-h-[35px] tw-w-[180px] tw-left-[2px] ' type="text" placeholder="Write" />
+          <div>
+            <Input
+              className="tw-bg-white tw-h-[35px] tw-w-[200px] tw-left-[2px]  tw-border-[#1D1F71]"
+              type="text"
+              placeholder="Write"
+              value={filterQuery}
+              onChange={(e) => setFilterQuery(e.target.value)}
+            />
+          </div>
         </div>
-        <div className="tw-flex tw-justify-end tw-gap-4 ">
-          <a href="#" className="tw-text-primary tw-underline tw-mt-2 tw-h-[17px]  tw-text-[16px]">Data Import/Export</a>
-        
-          <Button variant="default" className='tw-bg-[#1D1F71] tw-text-[#FFFFFF] tw-text-[13px] tw-h-[35px] ' onClick={() => setCurrentView('add')}><Plus className='tw-h-[15px] tw-w-[15px]'/>Add User</Button>
+        <div className="tw-flex tw-justify-end tw-gap-4">
+          <a
+            href="#"
+            className="tw-text-primary tw-underline tw-mt-2 tw-h-[17px] tw-text-[16px]"
+          >
+            Data Import/Export
+          </a>
+          <Button
+            variant="default"
+            className="tw-bg-[#1D1F71] tw-text-[#FFFFFF] tw-text-[13px] tw-h-[35px] hover:tw-bg-primary/180"
+            onClick={() => setCurrentView('add')}
+          >
+            <Plus className="tw-h-[25px] tw-w-[15px]" /> Add User
+          </Button>
         </div>
       </div>
 
       <div className="tw-overflow-hidden tw-bg-white tw-shadow-md tw-rounded-lg">
-      <Table className="tw-min-w-full tw-text-[13px] tw-h-[454px] tw-border tw-border-gray-300 tw-shadow-lg ">
-  <TableHeader className="tw-p-4 tw-text-center tw-bg-[#FFDF9B] ">
-    <TableRow>
-      <TableHead className="tw-py-3 tw-px-4 tw-border-b tw-border-gray-300  tw-text-extend tw-font-semibold">User ID</TableHead>
-      <TableHead className="tw-py-3 tw-px-4 tw-border-b tw-border-gray-300  tw-text-extend tw-font-semibold">Full Name</TableHead>
-      <TableHead className="tw-py-3 tw-px-4 tw-border-b tw-border-gray-300  tw-text-extend tw-font-semibold">Email Address</TableHead>
-      <TableHead className="tw-py-3 tw-px-4 tw-border-b tw-border-gray-300  tw-text-extend tw-font-semibold">Contact</TableHead>
-      <TableHead className="tw-py-3 tw-px-4 tw-border-b tw-border-gray-300  tw-text-extend tw-font-semibold">Organization</TableHead>
-      <TableHead className="tw-py-3 tw-px-4 tw-border-b tw-border-gray-300  tw-text-extend tw-font-semibold">Roles</TableHead>
-      <TableHead className="tw-py-3 tw-px-4 tw-border-b tw-border-gray-300  tw-text-extend tw-font-semibold">Status</TableHead>
-      <TableHead className="tw-py-3 tw-px-4 tw-border-b tw-border-gray-300  tw-text-extend tw-font-semibold">Action</TableHead>
-    </TableRow>
-  </TableHeader>
-  <TableBody>
-    {currentUsers.map((user, index) => (
-      <TableRow key={index} className=" tw-border-b tw-border-gray-300">
-        <TableCell className="tw-py-3 tw-px-4">{user.id}</TableCell>
-        <TableCell className="tw-py-3 tw-px-4">{user.name}</TableCell>
-        <TableCell className="tw-py-3 tw-px-4 tw-text-primary">{user.email}</TableCell>
-        <TableCell className="tw-py-3 tw-px-4">{user.contact}</TableCell>
-        <TableCell className="tw-py-3 tw-px-4">{user.organization}</TableCell>
-        <TableCell className="tw-py-3 tw-px-4">{user.roles}</TableCell>
-        <TableCell className="tw-py-3 tw-px-4">
-          <span className={`tw-py-1 tw-px-3 tw-rounded-full ${user.status.toLowerCase() === 'active' ? 'tw-text-green-500' : 'tw-text-red-500'}`}>
-            {user.status}
-          </span>
-        </TableCell>
-        <TableCell className="tw-py-3 tw-px-4">    <button 
-      className="tw-w-5 tw-h-4 tw-flex tw-items-center tw-justify-center tw-bg-transparent tw-border-none tw-cursor-pointer"
-      onClick={onEdit}
-      aria-label="Edit"
-    >
-      <Pencil className="tw-w-5 tw-h-4" />
-    </button></TableCell>
-      </TableRow>
-    ))}
-  </TableBody>
-</Table>
-</div>
-
-
-<div className="tw-flex tw-justify-between tw-items-center tw-w-[1091px] tw-h-[45px] tw-top-[409px] tw-left-[2px] tw-p-[15px_5px_0_5px] tw-gap-[711px] tw-opacity-100 ">
+        <Table className={`tw-overflow-y-auto`} style={{ height: tableHeight }}>
+          <TableHeader className="tw-p-4 tw-text-center tw-bg-[#FFDF9B]">
+            <TableRow>
+              <TableHead className="tw-py-3 tw-px-4 tw-border-b tw-border-gray-300 tw-text-extend tw-font-semibold tw-text-center">
+                User ID
+              </TableHead>
+              <TableHead className="tw-py-3 tw-px-4 tw-border-b tw-border-gray-300 tw-text-extend tw-font-semibold tw-text-center">
+                Full Name
+              </TableHead>
+              <TableHead className="tw-py-3 tw-px-4 tw-border-b tw-border-gray-300 tw-text-extend tw-font-semibold tw-text-center">
+                Email Address
+              </TableHead>
+              <TableHead className="tw-py-3 tw-px-4 tw-border-b tw-border-gray-300 tw-text-extend tw-font-semibold tw-text-center">
+                Contact
+              </TableHead>
+              <TableHead className="tw-py-3 tw-px-4 tw-border-b tw-border-gray-300 tw-text-extend tw-font-semibold tw-text-center">
+                Organization
+              </TableHead>
+              <TableHead className="tw-py-3 tw-px-4 tw-border-b tw-border-gray-300 tw-text-extend tw-font-semibold tw-text-center">
+                Roles
+              </TableHead>
+              <TableHead className="tw-py-3 tw-px-4 tw-border-b tw-border-gray-300 tw-text-extend tw-font-semibold tw-text-center">
+                Status
+              </TableHead>
+              <TableHead className="tw-py-3 tw-px-4 tw-border-b tw-border-gray-300 tw-text-extend tw-font-semibold tw-text-center">
+                Action
+              </TableHead>
+            </TableRow>
+          </TableHeader>
+          <TableBody>
+            {currentUsers.map((user, index) => (
+              <TableRow key={index} className="tw-border-b tw-border-gray-300 ">
+                <TableCell className="tw-py-3 tw-px-4 tw-text-center">{user.id}</TableCell>
+                <TableCell className="tw-py-3 tw-px-4 tw-text-center">{user.name}</TableCell>
+                <TableCell className="tw-py-3 tw-px-4 tw-text-center">{user.email}</TableCell>
+                <TableCell className="tw-py-3 tw-px-4 tw-text-center">{user.contact}</TableCell>
+                <TableCell className="tw-py-3 tw-px-4 tw-text-center">{user.organization}</TableCell>
+                <TableCell className="tw-py-3 tw-px-4 tw-text-center">{user.roles}</TableCell>
+                <TableCell className="tw-py-3 tw-px-4 tw-text-center">
+  <span
+    className={`tw-py-1 tw-px-3 tw-rounded-full ${
+      user.status.toLowerCase() === 'active' ? 'tw-text-green-500' : 'tw-text-red-500'
+    }`}
+  >
+    {user.status}
+  </span>
+</TableCell>
+                <TableCell className="tw-py-3 tw-px-4 tw-text-center">
+                  <button
+                    className="tw-w-5 tw-h-4 tw-flex tw-items-center tw-justify-center tw-bg-transparent tw-border-none tw-cursor-pointer"
+                    onClick={onEdit}
+                    aria-label="Edit"
+                  >
+                    <Pencil className="tw-h-4 tw-w-4" />
+                  </button>
+                </TableCell>
+              </TableRow>
+            ))}
+          </TableBody>
+        </Table>
+        </div>
+        <div className="tw-flex tw-justify-between tw-items-center tw-w-[1091px] tw-h-[45px] tw-top-[409px] tw-left-[2px] tw-p-[15px_5px_0_5px] tw-gap-[711px] tw-opacity-100 ">
         <div className="tw-text-gray-700 tw-w-[61px] tw-h-[30px] tw-gap-[25px]">
           <span className="tw-mr-4">Page</span>
           {currentPage}
@@ -546,8 +367,7 @@ if (currentView === 'add') {
           </Pagination>
         </div>
       </div>
-
-
+      
     </div>
   );
 };
