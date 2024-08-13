@@ -1,5 +1,6 @@
 import React, { useState } from 'react';
 import UserAddPage from './UserAddPage';
+import UserEditPage from './UserEditPage';
 import { Pencil, Plus } from 'lucide-react';
 import { Button } from '@/components/ui/button';
 import { Input } from '@/components/ui/input';
@@ -41,7 +42,7 @@ const users = [
     status: 'Inactive',
   },
   {
-    id: 'AB12456',
+    id: 'AB12457',
     name: 'Scarlett Johansson',
     email: 'scarlettjohansson@gmail.com',
     contact: '+919652358844',
@@ -50,7 +51,7 @@ const users = [
     status: 'Inactive',
   },
   {
-    id: 'AB12456',
+    id: 'AB12458',
     name: 'Scarlett Johansson',
     email: 'scarlettjohansson@gmail.com',
     contact: '+919652358844',
@@ -59,7 +60,7 @@ const users = [
     status: 'Inactive',
   },
   {
-    id: 'AB12456',
+    id: 'AB12459',
     name: 'Scarlett Johansson',
     email: 'scarlettjohansson@gmail.com',
     contact: '+919652358844',
@@ -68,7 +69,7 @@ const users = [
     status: 'Inactive',
   },
   {
-    id: 'AB12456',
+    id: 'AB124510',
     name: 'Scarlett Johansson',
     email: 'scarlettjohansson@gmail.com',
     contact: '+919652358844',
@@ -77,7 +78,7 @@ const users = [
     status: 'Inactive',
   },
   {
-    id: 'AB12456',
+    id: 'AB124511',
     name: 'Scarlett Johansson',
     email: 'scarlettjohansson@gmail.com',
     contact: '+919652358844',
@@ -86,7 +87,7 @@ const users = [
     status: 'Inactive',
   },
   {
-    id: 'AB12456',
+    id: 'AB124512',
     name: 'Scarlett Johansson',
     email: 'scarlettjohansson@gmail.com',
     contact: '+919652358844',
@@ -95,7 +96,7 @@ const users = [
     status: 'Inactive',
   },
   {
-    id: 'AB12456',
+    id: 'AB124513',
     name: 'Scarlett Johansson',
     email: 'scarlettjohansson@gmail.com',
     contact: '+919652358844',
@@ -103,7 +104,7 @@ const users = [
     roles: 'Admin',
     status: 'Inactive',
   }, {
-    id: 'AB12456',
+    id: 'AB124514',
     name: 'Scarlett Johansson',
     email: 'scarlettjohansson@gmail.com',
     contact: '+919652358844',
@@ -127,6 +128,7 @@ const users = [
 const UserListPage = () => {
   const [currentPage, setCurrentPage] = useState(1);
   const [currentView, setCurrentView] = useState('list');
+  const [currentViews, setCurrentViews] = useState('list1');
   const [filterField, setFilterField] = useState('Organization'); // Default filter field
   const [filterCondition, setFilterCondition] = useState('contains'); // Default filter condition
   const [filterQuery, setFilterQuery] = useState(''); // Filter query
@@ -172,6 +174,10 @@ const UserListPage = () => {
 
   const totalPages = Math.ceil(filteredUsers.length / usersPerPage);
 
+
+  const [editingUser, setEditingUser] = useState(null);
+const [isEditing, setIsEditing] = useState(false);
+
   // Handle page change
   const handlePageChange = (pageNumber) => {
     setCurrentPage(pageNumber);
@@ -180,59 +186,65 @@ const UserListPage = () => {
   if (currentView === 'add') {
     return <UserAddPage />;
   }
-
-  function onEdit() {
-    // Edit logic
+  // if (currentViews === 'edit') {
+  //   return <UserEditPage />;
+  // }
+   if (currentViews === 'edit') {
+    return <UserAddPage />;
   }
-
+  const onEdit = (user) => {
+    setEditingUser(user);
+    setIsEditing(true);
+  };
+  
   // Dynamic table height
   const tableHeight = Math.min(currentUsers.length * 95, 500);
 
   return (
     <div className="tw-p-8 tw-pl-0 tw-bg-colors tw-min-h-[550px] tw-overflow-hidden">
-      <div className="tw-flex tw-justify-between tw-items-center tw-mb-4">
-        <div className="tw-flex tw-gap-2 tw-w-[530px]">
-          <Select onValueChange={setFilterField}>
-            <SelectTrigger className="tw-bg-white tw-h-[33px] tw-w-[165px] tw-text-primary tw-border-[#1D1F71]">
-              <SelectValue placeholder="Filter" />
-            </SelectTrigger>
-            <SelectContent>
-              <SelectItem value="Organization">Organization</SelectItem>
-              <SelectItem value="Roles">Roles</SelectItem>
-              <SelectItem value="User ID">User ID</SelectItem>
-              <SelectItem value="Status">Status</SelectItem>
-              <SelectItem value="Full Name">Full Name</SelectItem>
-            </SelectContent>
-          </Select>
+    <div className="tw-flex tw-justify-between tw-items-center tw-mb-4">
+      <div className="tw-flex tw-gap-2 tw-w-[530px]">
+        <Select onValueChange={setFilterField}>
+          <SelectTrigger className="tw-bg-white tw-h-[33px] tw-w-[185px] tw-text-primary tw-border-[#1D1F71]">
+            <SelectValue placeholder="Filter" />
+          </SelectTrigger>
+          <SelectContent>
+            <SelectItem value="Organization">Organization</SelectItem>
+            <SelectItem value="No.of Batches">No.of Batches</SelectItem>
+            <SelectItem value="Email Address">Email Address</SelectItem>
+            <SelectItem value="Status">Status</SelectItem>
+            <SelectItem value="State">State</SelectItem>
+          </SelectContent>
+        </Select>
 
-          <Select onValueChange={setFilterCondition}>
-            <SelectTrigger className="tw-bg-white tw-h-[35px] tw-w-[129px] tw-text-primary tw-border-[#1D1F71]">
-              <SelectValue placeholder="Contains" />
-            </SelectTrigger>
-            <SelectContent>
-              <SelectItem value="equals">Equals to</SelectItem>
-              <SelectItem value="startsWith">Starts with</SelectItem>
-              <SelectItem value="contains">Contains</SelectItem>
-            </SelectContent>
-          </Select>
+        <Select onValueChange={setFilterCondition}>
+          <SelectTrigger className="tw-bg-white tw-h-[35px] tw-w-[115px] tw-text-primary tw-border-[#1D1F71]">
+            <SelectValue placeholder="Contains" />
+          </SelectTrigger>
+          <SelectContent>
+            <SelectItem value="equals">Equals to</SelectItem>
+            <SelectItem value="startsWith">Starts with</SelectItem>
+            <SelectItem value="contains">Contains</SelectItem>
+          </SelectContent>
+        </Select>
 
-          <div>
-            <Input
-              className="tw-bg-white tw-h-[35px] tw-w-[200px] tw-left-[2px]  tw-border-[#1D1F71]"
-              type="text"
-              placeholder="Write"
-              value={filterQuery}
-              onChange={(e) => setFilterQuery(e.target.value)}
-            />
-          </div>
+        <div>
+          <Input
+            className="tw-bg-white tw-h-[35px] tw-w-[200px] tw-left-[2px]  tw-border-[#1D1F71]"
+            type="text"
+            placeholder="Write"
+            value={filterQuery}
+            onChange={(e) => setFilterQuery(e.target.value)}
+          />
         </div>
-        <div className="tw-flex tw-justify-end tw-gap-4">
-          <a
-            href="#"
-            className="tw-text-primary tw-underline tw-mt-2 tw-h-[17px] tw-text-[16px]"
-          >
-            Data Import/Export
-          </a>
+      </div>
+      <div className="tw-flex tw-justify-end tw-gap-4">
+        <a
+          href="#"
+          className="tw-text-primary tw-underline tw-mt-2 tw-h-[17px] tw-text-[16px]"
+        >
+          Data Import/Export
+        </a>
           <Button
             variant="default"
             className="tw-bg-[#1D1F71] tw-text-[#FFFFFF] tw-text-[13px] tw-h-[35px] hover:tw-bg-primary/180"
@@ -294,7 +306,7 @@ const UserListPage = () => {
                 <TableCell className="tw-py-3 tw-px-4 tw-text-center">
                   <button
                     className="tw-w-5 tw-h-4 tw-flex tw-items-center tw-justify-center tw-bg-transparent tw-border-none tw-cursor-pointer"
-                    onClick={onEdit}
+                    onClick={() => setCurrentViews('edit')}
                     aria-label="Edit"
                   >
                     <Pencil className="tw-h-4 tw-w-4" />

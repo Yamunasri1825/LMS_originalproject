@@ -290,7 +290,7 @@ function UserAddPage() {
               </div>
             </div>
 
-            <div className="tw-flex tw-items-center tw-space-x-3 tw-mt-[60px]">
+            <div className="tw-flex tw-items-center tw-space-x-3 tw-mt-[80px]">
               <div className="tw-w-[600px] tw-flex tw-gap-[8px]">
               <Checkbox
                 id="autoGeneratePassword"
