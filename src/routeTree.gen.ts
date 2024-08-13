@@ -13,8 +13,12 @@
 import { Route as rootRoute } from './routes/__root'
 import { Route as IndexImport } from './routes/index'
 import { Route as UsersIndexImport } from './routes/users/index'
+import { Route as StudentsIndexImport } from './routes/students/index'
+import { Route as OrganizationIndexImport } from './routes/organization/index'
 import { Route as UsersAddImport } from './routes/users/add'
 import { Route as UsersUserIdImport } from './routes/users/$userId'
+import { Route as StudentsStudentAddImport } from './routes/students/StudentAdd'
+import { Route as OrganizationOrganizationAddImport } from './routes/organization/OrganizationAdd'
 
 // Create/Update Routes
 
@@ -28,6 +32,16 @@ const UsersIndexRoute = UsersIndexImport.update({
   getParentRoute: () => rootRoute,
 } as any)
 
+const StudentsIndexRoute = StudentsIndexImport.update({
+  path: '/students/',
+  getParentRoute: () => rootRoute,
+} as any)
+
+const OrganizationIndexRoute = OrganizationIndexImport.update({
+  path: '/organization/',
+  getParentRoute: () => rootRoute,
+} as any)
+
 const UsersAddRoute = UsersAddImport.update({
   path: '/users/add',
   getParentRoute: () => rootRoute,
@@ -38,6 +52,17 @@ const UsersUserIdRoute = UsersUserIdImport.update({
   getParentRoute: () => rootRoute,
 } as any)
 
+const StudentsStudentAddRoute = StudentsStudentAddImport.update({
+  path: '/students/StudentAdd',
+  getParentRoute: () => rootRoute,
+} as any)
+
+const OrganizationOrganizationAddRoute =
+  OrganizationOrganizationAddImport.update({
+    path: '/organization/OrganizationAdd',
+    getParentRoute: () => rootRoute,
+  } as any)
+
 // Populate the FileRoutesByPath interface
 
 declare module '@tanstack/react-router' {
@@ -47,6 +72,20 @@ declare module '@tanstack/react-router' {
       path: '/'
       fullPath: '/'
       preLoaderRoute: typeof IndexImport
+      parentRoute: typeof rootRoute
+    }
+    '/organization/OrganizationAdd': {
+      id: '/organization/OrganizationAdd'
+      path: '/organization/OrganizationAdd'
+      fullPath: '/organization/OrganizationAdd'
+      preLoaderRoute: typeof OrganizationOrganizationAddImport
+      parentRoute: typeof rootRoute
+    }
+    '/students/StudentAdd': {
+      id: '/students/StudentAdd'
+      path: '/students/StudentAdd'
+      fullPath: '/students/StudentAdd'
+      preLoaderRoute: typeof StudentsStudentAddImport
       parentRoute: typeof rootRoute
     }
     '/users/$userId': {
@@ -63,6 +102,20 @@ declare module '@tanstack/react-router' {
       preLoaderRoute: typeof UsersAddImport
       parentRoute: typeof rootRoute
     }
+    '/organization/': {
+      id: '/organization/'
+      path: '/organization'
+      fullPath: '/organization'
+      preLoaderRoute: typeof OrganizationIndexImport
+      parentRoute: typeof rootRoute
+    }
+    '/students/': {
+      id: '/students/'
+      path: '/students'
+      fullPath: '/students'
+      preLoaderRoute: typeof StudentsIndexImport
+      parentRoute: typeof rootRoute
+    }
     '/users/': {
       id: '/users/'
       path: '/users'
@@ -77,8 +130,12 @@ declare module '@tanstack/react-router' {
 
 export const routeTree = rootRoute.addChildren({
   IndexRoute,
+  OrganizationOrganizationAddRoute,
+  StudentsStudentAddRoute,
   UsersUserIdRoute,
   UsersAddRoute,
+  OrganizationIndexRoute,
+  StudentsIndexRoute,
   UsersIndexRoute,
 })
 
@@ -91,19 +148,35 @@ export const routeTree = rootRoute.addChildren({
       "filePath": "__root.tsx",
       "children": [
         "/",
+        "/organization/OrganizationAdd",
+        "/students/StudentAdd",
         "/users/$userId",
         "/users/add",
+        "/organization/",
+        "/students/",
         "/users/"
       ]
     },
     "/": {
       "filePath": "index.tsx"
     },
+    "/organization/OrganizationAdd": {
+      "filePath": "organization/OrganizationAdd.tsx"
+    },
+    "/students/StudentAdd": {
+      "filePath": "students/StudentAdd.tsx"
+    },
     "/users/$userId": {
       "filePath": "users/$userId.tsx"
     },
     "/users/add": {
       "filePath": "users/add.tsx"
+    },
+    "/organization/": {
+      "filePath": "organization/index.tsx"
+    },
+    "/students/": {
+      "filePath": "students/index.tsx"
     },
     "/users/": {
       "filePath": "users/index.tsx"

@@ -1,8 +1,9 @@
 import React, { useState } from 'react';
-import UserAddPage from './UserAddPage';
+import StudentAddPage from './StudentAddPage';
 import { Pencil, Plus } from 'lucide-react';
 import { Button } from '@/components/ui/button';
 import { Input } from '@/components/ui/input';
+import { Link } from '@tanstack/react-router';
 import {
   Select,
   SelectContent,
@@ -198,7 +199,7 @@ const UserListPage = () => {
   };
 
   if (currentView === 'add') {
-    return <UserAddPage />;
+    return <StudentAddPage />;
   }
 
   function onEdit() {
@@ -206,18 +207,18 @@ const UserListPage = () => {
   }
 
   // Dynamic table height
-  const tableHeight = Math.min(currentUsers.length * 95, 500);
+  const tableHeight = Math.min(currentUsers.length * 95, 450);
   // const heightClass = filteredUsers.length > 10 ? 'tw-h-150' : 'tw-h-auto';
   // Determine height class based on number of filtered users
   // const numUsers = filteredUsers.length;
   // const heightClass = numUsers > 10 ? 'tw-h-100' : 'tw-h-auto'; // Example: adjust class names as needed
 
   return (
-    <div className="tw-p-8 tw-pl-0 tw-bg-colors tw-min-h-[650px] tw-overflow-hidden">
+    <div className="tw-p-8 tw-pl-0 tw-bg-colors tw-overflow-hidden">
       <div className="tw-flex tw-justify-between tw-items-center tw-mb-4">
-        <div className="tw-flex tw-gap-2 tw-w-[500px]">
+        <div className="tw-flex tw-gap-2 tw-w-[600px]">
           <Select onValueChange={setFilterField}>
-            <SelectTrigger className="tw-bg-white tw-h-[33px] tw-w-[170px] tw-text-primary tw-border-[#1D1F71]">
+            <SelectTrigger className="tw-bg-white tw-h-[33px] tw-w-[140px] tw-text-primary tw-border-[#1D1F71]">
               <SelectValue placeholder="Filter" />
             </SelectTrigger>
             <SelectContent>
@@ -230,7 +231,7 @@ const UserListPage = () => {
           </Select>
 
           <Select onValueChange={setFilterCondition}>
-            <SelectTrigger className="tw-bg-white tw-h-[35px] tw-w-[170px] tw-text-primary tw-border-[#1D1F71]">
+            <SelectTrigger className="tw-bg-white tw-h-[35px] tw-w-[110px] tw-text-primary tw-border-[#1D1F71]">
               <SelectValue placeholder="Contains" />
             </SelectTrigger>
             <SelectContent>
@@ -242,7 +243,7 @@ const UserListPage = () => {
 
           <div>
             <Input
-              className="tw-bg-white tw-h-[35px] tw-w-[120px] tw-left-[2px] tw-border-[#1D1F71]"
+              className="tw-bg-white tw-h-[35px] tw-w-[300px] tw-left-[2px] tw-border-[#1D1F71]"
               type="text"
               placeholder="Write"
               value={filterQuery}
@@ -257,13 +258,13 @@ const UserListPage = () => {
           >
             Data Import/Export
           </a>
-          <Button
-            variant="default"
-            className="tw-bg-[#1D1F71] tw-text-[#FFFFFF] tw-text-[13px] tw-h-[35px] hover:tw-bg-primary/180"
-            onClick={() => setCurrentView('add')}
-          >
-            <Plus className="tw-h-[25px] tw-w-[15px]" /> Add Student
-          </Button>
+          <Link
+  to="/students/StudentAdd"
+  className="tw-bg-[#1D1F71] tw-text-[#FFFFFF] tw-text-[13px] tw-h-[35px] hover:tw-bg-primary/180 tw-flex tw-items-center tw-px-2 tw-py-1 tw-rounded"
+  onClick={() => setCurrentView('add')}
+>
+  <Plus className="tw-h-[25px] tw-w-[15px] tw-mr-1" /> Add Student
+</Link>
         </div>
       </div>
 
@@ -345,49 +346,16 @@ const UserListPage = () => {
             <PaginationContent className="tw-flex tw-items-center tw-space-x-1">
               <PaginationItem>
                 <PaginationPrevious
-                  className="tw-px-3 tw-py-1"
+                  className="tw-px-3 tw-py-1 tw-cursor-pointer"
                   onClick={() =>
                     setCurrentPage((prev) => Math.max(prev - 1, 1))
                   }
                 />
               </PaginationItem>
-              {(() => {
-                const pageNumbers = [];
-                if (totalPages <= 4) {
-                  for (let i = 1; i <= totalPages; i++) {
-                    pageNumbers.push(i);
-                  }
-                } else {
-                  if (currentPage <= 2) {
-                    pageNumbers.push(1, 2, "...", totalPages);
-                  } else if (currentPage >= totalPages - 1) {
-                    pageNumbers.push(1, "...", totalPages - 1, totalPages);
-                  } else {
-                    pageNumbers.push(1, "...", currentPage, "...", totalPages);
-                  }
-                }
-                return pageNumbers;
-              })().map((page, index) => (
-                <PaginationItem key={index}>
-                  {page === "..." ? (
-                    <span className="tw-px-3 tw-py-1">...</span>
-                  ) : (
-                    <PaginationLink
-                      className={`tw-px-3 tw-py-1 ${
-                        currentPage === page
-                          ? "tw-bg-gray-200 tw-font-bold tw-text-black"
-                          : ""
-                      }`}
-                      onClick={() => setCurrentPage(page)}
-                    >
-                      {page}
-                    </PaginationLink>
-                  )}
-                </PaginationItem>
-              ))}
+          
               <PaginationItem>
                 <PaginationNext
-                  className="tw-px-3 tw-py-1"
+                  className="tw-px-3 tw-py-1 tw-cursor-pointer"
                   onClick={() =>
                     setCurrentPage((prev) => Math.min(prev + 1, totalPages))
                   }
