@@ -132,6 +132,7 @@ function UserAddPage() {
     setIsDialogOpen(false);
   };
 
+  
   return (
     <>
       <p className="tw-h-[7px] tw-w-[560px] tw-top-[120px] tw-left-[234px] tw-text-extend tw-text-[10px] tw-text-[#4B4B4B]">
@@ -241,6 +242,7 @@ function UserAddPage() {
                     </FormMessage>
                   </Popover>
                 </div>
+
               </div>
 
               <div className="tw-grid tw-grid-cols-2 tw-gap-4 tw-mt-4">
