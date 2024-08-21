@@ -1,7 +1,9 @@
 import * as React from "react";
 import { Separator } from "@/components/ui/separator";
 import { useState, useEffect } from "react";
-import { format } from "date-fns";
+import { format,getYear } from "date-fns";
+import 'react-calendar/dist/Calendar.css';
+import { Calendar as ReactCalendar, CalendarProps } from 'react-calendar';
 import { Calendar as CalendarIcon } from "lucide-react";
 import { Search } from "lucide-react";
 import { Input } from "@/components/ui/input";
@@ -46,11 +48,21 @@ import {
 } from "@/components/ui/select";
 import { parsePhoneNumber } from "libphonenumber-js";
 
+// Dummy data for programs and courses
+const dummyData = [
+  { id: 1, name: "Java" },
+  { id: 2, name: "React" },
+  { id: 3, name: "SQL" },
+  { id: 4, name: "Web Development" },
+  { id: 5, name: "Advance Java" },
+];
+
+
 // Form schema definition
 const userSchema = z.object({
   studentId: z.string().min(1, "Student ID is required"),
   fullName: z.string().min(2, "Full Name is required"),
-  gender: z.enum(["Male", "Female", "Other"]),
+ 
   primaryEmailId: z.string().email("Primary Email ID is required"),
   institutionEmailId: z.string().optional(),
   contactDetails: z.object({
@@ -64,12 +76,38 @@ const userSchema = z.object({
   organization: z.string().min(2, "Organization is required."),
   apsche: z.enum(["Yes", "No"]),
   status: z.enum(["active", "inactive"]),
+  // gender: z.enum(["Male", "Female", "Other"]),
+  gender: z.string().min(1, "gender is required"),
 });
 
 function UserAddPage() {
-  const [selectedDate, setSelectedDate] = useState<Date | undefined>();
+  // const [selectedDate, setSelectedDate] = useState<Date | undefined>();
+  const [selectedDate, setSelectedDate] = useState<Date | null>(null);
+  const [view, setView] = useState<'month' | 'year'>('month');
+  const [showYearPicker, setShowYearPicker] = useState(false);
   const [isDialogOpen, setIsDialogOpen] = useState(false);
   const [autoGeneratePassword, setAutoGeneratePassword] = useState(false);
+  const [searchTerm, setSearchTerm] = useState('');
+  const [selectedCourse, setSelectedCourse] = useState<string | null>(null);
+
+  const filteredData = dummyData.filter((item) =>
+    item.name.toLowerCase().includes(searchTerm.toLowerCase()) &&
+    item.name !== selectedCourse // Exclude selected course
+  );
+  const handleDateSelect = (date: Date | null) => {
+    if (date) {
+      setSelectedDate(date);
+      setValue('dob', date, { shouldValidate: true }); // Update the form value and trigger validation
+      setView('month'); // Switch back to month view after selecting a date
+    }
+  };
+  const handleCalendarChange = (value: Date | Date[] | null) => {
+    if (Array.isArray(value)) {
+      console.warn('Range selection is not supported for this picker.');
+    } else {
+      handleDateSelect(value);
+    }
+  };
 
   const formInstance = useForm({
     resolver: zodResolver(userSchema),
@@ -83,7 +121,7 @@ function UserAddPage() {
         dialingCode: "",
         phone: "",
       },
-      dob: undefined,
+      dob: null,
       batch: "",
       organization: "",
       apsche: "Yes",
@@ -99,40 +137,92 @@ function UserAddPage() {
   }, [formInstance]);
 
   const handleFormSubmit = (data) => {
-    console.log(data);
-    if (autoGeneratePassword){
-      setIsDialogOpen(true);
+    if (selectedCourse) {
+      console.log(data);
+          if (autoGeneratePassword){
+            setIsDialogOpen(true);
+           } else {
+                reset({
+                  studentId: "",
+                  fullName: "",
+                  gender: " Male",
+                  primaryEmailId: "",
+                  institutionEmailId: "",
+                  contactDetails: {
+                    dialingCode: "",
+                    phone: "",
+                  },
+                  dob: null,
+                  batch: "",
+                  organization: "",
+                  apsche: "Yes",
+                  status: "active",
+                });
+                setSelectedDate(undefined);
+                setAutoGeneratePassword(false);
+                setSelectedCourse("");
+              }
+     
+       // Clear selected course after submission
     } else {
-      reset(formInstance.defaultValues);
-      setSelectedDate(undefined);
-      setAutoGeneratePassword(false);
+      alert("Please select a course.");
     }
   };
-
   const closeAlertDialog = () => {
     setIsDialogOpen(false);
   };
 
+
+  
   return (
     <>
-      <p className="tw-h-[7px] tw-w-full tw-top-[120px] tw-left-[234px] tw-text-extend tw-text-[10px] tw-text-[#4B4B4B]">
-        Student profiles store information about users. You can update a student's information later by clicking on the student profile, which will bring up this same screen.
-      </p>
-      <div className="tw-mt-4">
-        <a href="#" className="tw-text-primary tw-underline tw-w-[200px] tw-text-[14px]">Data Import/Export</a>
-      </div>
-      <div className="tw-mt-3 tw-h-[90px] tw-bg-white tw-w-[770px] tw-rounded-lg ">
-      <p className="tw-text-black tw-text-[14px] tw-ml-6 tw-pt-4 tw-text-semi-bold"> Tag Course Or Program</p>
+    <div>
+    <p className="tw-h-[7px] tw-w-full tw-top-[120px] tw-left-[234px] tw-text-extend tw-text-[10px] tw-text-[#4B4B4B]">
+  Student profiles store information about users. You can update a student's information later by clicking on the student profile, which will bring up this same screen.
+</p>
+<div className="tw-mt-4">
+  <a href="#" className="tw-text-primary tw-underline tw-w-[200px] tw-text-[14px]">Data Import/Export</a>
+</div>
+<div className="tw-mt-3 tw-h-[90px] tw-bg-white tw-w-[770px] tw-rounded-lg">
+  <p className="tw-text-black tw-text-[14px] tw-ml-6 tw-pt-4 tw-text-semi-bold">Tag Course Or Program</p>
+  <div className="tw-relative tw-flex tw-items-center tw-h-[40px]  tw-w-[400px] tw-left-5">
+    <Search className="tw-absolute tw-left-4 tw-text-primary tw-size-4" />
+    <Input
+      type="text"
+      placeholder="Search Course or Program"
+      className="tw-pl-10 tw-w-[390px] tw-h-[40px] tw-rounded-[5px] tw-border tw-border-primary tw-text-[#020202] focus:tw-outline-none"
+      value={selectedCourse || searchTerm}
+      onChange={(e) => {
+        setSearchTerm(e.target.value);
+        setSelectedCourse(null); 
+      }}
+    />
 
-      <div className="tw-relative tw-flex tw-items-center tw-h-[40px] tw-left-5">
-        <Search className="tw-absolute tw-left-4 tw-text-primary tw-size-4" />
-        <input
-          type="text"
-          placeholder="Search Course or Program"
-          className="tw-pl-10 tw-w-[370px] tw-h-[30px] tw-rounded-[5px] tw-border tw-border-[#5A5A89] tw-text-[#020202] focus:tw-outline-none"
-        
-        />
-      </div>
+
+  </div>
+  {!selectedCourse && (
+            <ul className="tw-ml-10 tw-mt-2">
+              {searchTerm && filteredData.length > 0 ? (
+                filteredData.map((item) => (
+                  <li
+                    key={item.id}
+                    className="tw-text-black tw-text-[14px] tw-cursor-pointer"
+                    onClick={() => {
+                      setSelectedCourse(item.name);
+                      setSearchTerm('');
+                    }}
+                  >
+                    {item.name}
+                  </li>
+                ))
+              ) : searchTerm ? (
+                <li className="tw-text-gray-500 tw-text-[14px]">No results found</li>
+              ) : null}
+            </ul>
+          )}
+
+
+
 
       </div>
       <div className="tw-mt-4 tw-bg-white tw-p-8 tw-rounded-lg tw-shadow-lg tw-border tw-w-[770px] tw-h-[700px] tw-border-gray-300">
@@ -160,7 +250,7 @@ function UserAddPage() {
                   {...formInstance.register("organization")}
                 />
                 <FormMessage className="tw-text-red-500">
-                  {formState.errors.organization?.message?.toString()}
+                  {formState.errors.gender?.message?.toString()}
                 </FormMessage>
               </div>
             </div>
@@ -205,24 +295,26 @@ function UserAddPage() {
               <div className="tw-w-[340px]">
                 <FormLabel className="tw-text-[12px]">DOB</FormLabel>
                 <Popover>
-                  <PopoverTrigger asChild>
-                    <Button variant={"outline"} className="tw-w-full">
-                      {selectedDate ? format(selectedDate, "dd/MM/yyyy") : "Select Date"}
-                      <CalendarIcon className="tw-ml-2 tw-h-4 tw-w-4" />
-                    </Button>
-                  </PopoverTrigger>
-                  <PopoverContent>
-                    <Calendar
-                      mode="single"
-                      selected={selectedDate}
-                      onSelect={(date) => {
-                        setSelectedDate(date || null);
-                        setValue("dob", date || null, { shouldValidate: true });
-                      }}
-                      initialFocus
-                    />
-                  </PopoverContent>
-                </Popover>
+      <PopoverTrigger asChild>
+        <Button variant="outline" className="tw-w-full">
+          {selectedDate ? format(selectedDate, 'dd/MM/yyyy') : 'Select Date'}
+          <CalendarIcon className= "tw-ml-[195px] tw-h-4 tw-w-4" />
+        </Button>
+      </PopoverTrigger>
+      <PopoverContent>
+        <ReactCalendar
+          onChange={handleCalendarChange}
+          value={selectedDate}
+          view={view}
+          onViewChange={(newView) => setView(newView as 'month' | 'year')}
+          // If you want to toggle views between month and year, you need to handle view changes.
+        />
+        <div className="tw-mt-2">
+          <button onClick={() => setView('month')} className="tw-mr-2">Month</button>
+          <button onClick={() => setView('year')}>Year</button>
+        </div>
+      </PopoverContent>
+    </Popover>
                 <FormMessage className="tw-text-red-500">
                   {formState.errors.dob?.message?.toString()}
                 </FormMessage>
@@ -248,19 +340,18 @@ function UserAddPage() {
                   {formState.errors.contactDetails?.phone?.message?.toString()}
                 </FormMessage>
               </div>
-              <div className="tw-w-[340px]">
+              <div className="tw-w-[340px] ">
   <FormLabel className="tw-text-[12px]">Batch</FormLabel>
   <Select
     onValueChange={(value) => setValue("batch", value, { shouldValidate: true })}
   >
     <SelectTrigger>
-      <SelectValue placeholder="Select Batch" />
+      <SelectValue placeholder="Batch 1" />
     </SelectTrigger>
     <SelectContent>
-      <SelectItem value="2022">2022</SelectItem>
-      <SelectItem value="2023">2023</SelectItem>
-      <SelectItem value="2024">2024</SelectItem>
-      <SelectItem value="2025">2025</SelectItem>
+      <SelectItem value="batch1">Batch 1</SelectItem>
+      <SelectItem value="batch2">Batch 2</SelectItem>
+      <SelectItem value="batch3">Batch 3</SelectItem>
       {/* Add more batch options as needed */}
     </SelectContent>
   </Select>
@@ -273,18 +364,18 @@ function UserAddPage() {
 
             </div>
 
-            <div className="tw-grid tw-grid-cols-2 tw-gap-4 tw-mt-4">
+            <div className="tw-grid tw-grid-cols-2 tw-gap-4 tw-mt-4 ">
              
                 <div className="tw-w-[340px]">
-                <FormLabel className="tw-text-[12px]">Organization</FormLabel>
-                <Select {...formInstance.register("gender")}>
+                <FormLabel className="tw-text-[12px] ">Organization</FormLabel>
+                <Select {...formInstance.register("organization")}>
                   <SelectTrigger>
-                    <SelectValue placeholder="Organization" />
+                    <SelectValue placeholder="XYZ Organization" />
                   </SelectTrigger>
                   <SelectContent>
                     <SelectItem value="Male">Xyz Organization</SelectItem>
-                    <SelectItem value="Female">Xyz Organization</SelectItem>
-                    <SelectItem value="Other">Xyz Organization</SelectItem>
+                    <SelectItem value="Female">abc Organization</SelectItem>
+                    <SelectItem value="Other">def Organization</SelectItem>
                   </SelectContent>
                 </Select>
                 <FormMessage className="tw-text-red-500">
@@ -296,7 +387,7 @@ function UserAddPage() {
                 <FormLabel className="tw-text-[12px]">APSCHE</FormLabel>
                 <Select {...formInstance.register("apsche")}>
                   <SelectTrigger>
-                    <SelectValue placeholder="APSCHE" />
+                    <SelectValue placeholder="Yes" />
                   </SelectTrigger>
                   <SelectContent>
                     <SelectItem value="Yes">Yes</SelectItem>
@@ -365,7 +456,7 @@ function UserAddPage() {
             <Button
               type="submit"
               variant="default"
-              className="tw-bg-primary tw-text-white tw-rounded-md tw-px-4 tw-py-2 tw-mt-5"
+              className="tw-bg-primary tw-text-white tw-rounded-md tw-px-4 tw-py-2 tw-mt-5" disabled={!selectedCourse}
             >
               Submit
             </Button>
@@ -401,6 +492,7 @@ function UserAddPage() {
             </div>
           </AlertDialogContent>
         </AlertDialog>
+        </div>
     </>
   );
 }

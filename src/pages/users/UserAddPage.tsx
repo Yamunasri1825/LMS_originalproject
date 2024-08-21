@@ -1,5 +1,4 @@
 //add user page
-
 import * as React from "react";
 import { Separator } from "@/components/ui/separator"
 import { useState, useEffect } from "react";
@@ -46,9 +45,7 @@ import {
   SelectValue,
 } from "@/components/ui/select";
 import { parsePhoneNumber } from "libphonenumber-js";
-// import { Separator } from "@radix-ui/react-separator";
-
-// Form schema definition
+const today = new Date();
 const userSchema = z.object({
   fullName: z.string().min(2, "Full Name is required"),
   contactDetails: z.object({
@@ -64,14 +61,13 @@ const userSchema = z.object({
   status: z.enum(["active", "inactive"]),
 });
 
-// Phone number handling
 const handlePhoneChange = (formHandler) => {
   const phoneNumber = formHandler.getValues("contactDetails.phone");
   if (phoneNumber) {
     try {
       const parsedNumber = parsePhoneNumber(phoneNumber);
       formHandler.setValue("contactDetails.dialingCode", parsedNumber.countryCallingCode);
-      formHandler.setValue("contactDetails.phone", parsedNumber.formatInternational()); // Retain international format
+      formHandler.setValue("contactDetails.phone", parsedNumber.formatInternational());
     } catch (error) {
       console.error("Invalid phone number", error);
     }
@@ -141,19 +137,19 @@ function UserAddPage() {
       <div className="tw-mt-4">
         <a href="#" className="tw-text-primary tw-underline tw-w-[200px] tw-text-[14px]">Data Import/Export</a>
       </div>
-      <div className="tw-mt-8 tw-bg-white tw-p-8 tw-rounded-lg tw-shadow-lg tw-border tw-w-[770px] tw-h-[450px] tw-border-gray-300">
+      <div className="tw-mt-8 tw-bg-white tw-p-8 tw-rounded-lg tw-shadow-lg tw-border tw-w-[800px] tw-h-[550px] tw-border-gray-300">
         <Form {...formInstance}>
           <form onSubmit={handleSubmit(handleFormSubmit)}>
             <div className="tw-w-[616px] tw-h-[176px]">
               <div className="tw-grid tw-grid-cols-2 tw-gap-4">
                 <div className="tw-w-[340px] tw-h-[46px] tw-gap-[8px]">
-                  <FormLabel className="tw-block tw-text-[12px] tw-mb-1 tw-font-medium tw-leading-[24px] tw-tracking-[-0.025em] tw-text-left tw-text-[#030303]">
+                  <FormLabel className="tw-block tw-text-[12px] tw-mb-1 tw-font-medium tw-text-left tw-text-[#030303]">
                     Full Name
                   </FormLabel>
                   <Input
                     type="text"
                     placeholder="Full Name"
-                    className="tw-w-[330px] tw-h-[40px] tw-radius-[4px] tw-text-[#070707]"
+                    className="tw-w-[330px] tw-h-[40px] tw-radius-[4px] tw-text-black"
                     {...formInstance.register("fullName")}
                     onChange={() => clearErrors("fullName")}
                   />
@@ -167,7 +163,7 @@ function UserAddPage() {
                     name="contactDetails.phone"
                     render={({ field }) => (
                       <FormItem className="tw-w-full">
-                        <FormLabel htmlFor="phoneNumber" className="tw-block tw-text-[10px] tw-font-medium tw-font-extend tw-leading-[24px] tw-tracking-[-0.025em] tw-text-left tw-text-[#030303] tw-mt-2">
+                        <FormLabel htmlFor="phoneNumber" className="tw-block tw-font-medium tw-text-left tw-text-black tw-mt-2">
                           Phone Number
                         </FormLabel>
                         <FormControl className="tw-w-full">
@@ -182,9 +178,9 @@ function UserAddPage() {
                               clearErrors("contactDetails.phone");
                             }}
                             onBlur={() => {
-                              handlePhoneChange(formInstance); // Ensure the flag and country code are retained
+                              handlePhoneChange(formInstance);
                             }}
-                            defaultCountry="IN" // You can set a default country
+                            defaultCountry="IN"
                           />
                         </FormControl>
                         <FormMessage className="tw-text-red-500">
@@ -196,15 +192,15 @@ function UserAddPage() {
                 </div>
               </div>
 
-              <div className="tw-grid tw-grid-cols-2 tw-gap-4 tw-mt-4">
+              <div className="tw-grid tw-grid-cols-2 tw-gap-4 tw-mt-5">
                 <div className="tw-w-[340px] tw-h-[46px] tw-gap-[8px] tw-bg-white">
-                  <FormLabel className="tw-block tw-text-[12px]  tw-mb-1 tw-font-medium tw-leading-[24px] tw-tracking-[-0.025em] tw-text-left tw-text-[#030303]">
+                  <FormLabel className="tw-block tw-mb-1 tw-font-medium tw-text-left tw-text-black">
                     Email ID
                   </FormLabel>
                   <Input
                     type="email"
                     placeholder="yourname@gmail.com"
-                    className="tw-w-[330px] tw-h-[40px] tw-radius-[4px] tw-text-[#020202]"
+                    className="tw-w-[330px] tw-h-[40px] tw-radius-[4px] tw-text-black"
                     {...formInstance.register("emailAddress")}
                     onChange={() => clearErrors("emailAddress")}
                   />
@@ -214,17 +210,17 @@ function UserAddPage() {
                 </div>
                 <div className="tw-w-[340px] tw-h-[46px] tw-gap-[8px] tw-ml-14 tw-mt-[-5.2px]">
                   <Popover>
-                  <FormLabel htmlFor="phoneNumber" className="tw-block  tw-mb-1 tw-text-[10px] tw-font-medium tw-font-extend tw-leading-[24px] tw-tracking-[-0.025em] tw-text-left tw-text-[#030303] tw-mt-1">
+                  <FormLabel htmlFor="phoneNumber" className="tw-block  tw-mb-1 tw-text-[10px] tw-text-left tw-text-black tw-mt-1">
                           Joining Date
                         </FormLabel>
                     <PopoverTrigger asChild>
-                      <Button
-                        variant={"outline"}
-                        className="tw-w-[337px] tw-h-[40px] tw-radius-[4px] tw-gap-[180px]  tw-text-[#0f0f0f]"
-                      >
-                        {selectedDate ? format(selectedDate, "dd/MM/yyyy") : "Select Date"}
-                        <CalendarIcon className="tw-mr-1 tw-h-4 tw-w-4" />
-                      </Button>
+                    <Button
+  variant={"outline"}
+  className="tw-w-[337px] tw-h-[40px] tw-radius-[4px] tw-gap-[180px]  tw-text-black"
+>
+  {selectedDate ? format(selectedDate, "dd/MM/yyyy") : format(today, "dd/MM/yyyy")}
+  <CalendarIcon className="tw-mr-1 tw-h-4 tw-w-4" />
+</Button>
                     </PopoverTrigger>
                     <PopoverContent className="tw-w-auto tw-p-0">
                     <Calendar
@@ -245,15 +241,15 @@ function UserAddPage() {
 
               </div>
 
-              <div className="tw-grid tw-grid-cols-2 tw-gap-4 tw-mt-4">
+              <div className="tw-grid tw-grid-cols-2 tw-gap-4 tw-mt-7">
                 <div className="tw-w-[340px] tw-h-[46px] tw-gap-[8px] tw-mt-4">
-                  <FormLabel className="tw-block tw-text-[12px] tw-mb-1 tw-font-medium tw-leading-[24px] tw-tracking-[-0.025em] tw-text-left tw-text-[#030303]">
+                  <FormLabel className="tw-block tw-text-[12px] tw-mb-1 tw-font-medium tw-text-left tw-text-black">
                     Organization
                   </FormLabel>
                   <Input
                     type="text"
                     placeholder="Organization Name"
-                    className="tw-w-[330px] tw-h-[40px] tw-radius-[4px] tw-text-[#070707]"
+                    className="tw-w-[330px] tw-h-[40px] tw-radius-[4px] tw-text-black"
                     {...formInstance.register("company")}
                     onChange={() => clearErrors("company")}
                   />
@@ -262,7 +258,7 @@ function UserAddPage() {
                   </FormMessage>
                 </div>
                 <div className="tw-ml-14 tw-mt-4 tw-w-[340px]">
-                  <FormLabel className="tw-block  tw-mb-1 tw-text-[12px] tw-font-medium tw-leading-[24px] tw-tracking-[-0.025em] tw-text-left tw-text-[#030303]">
+                  <FormLabel className="tw-block tw-mb-1 tw-text-[12px] tw-font-medium tw-text-left tw-text-black">
                     Assign Role
                   </FormLabel>
                   <FormField
@@ -292,16 +288,19 @@ function UserAddPage() {
               </div>
             </div>
 
-            <div className="tw-flex tw-items-center tw-space-x-3 tw-mt-[80px]">
+            <div className="tw-flex tw-items-center tw-space-x-3 tw-mt-[110px]">
               <div className="tw-w-[600px] tw-flex tw-gap-[8px]">
               <Checkbox
-                id="autoGeneratePassword"
-                checked={autoGeneratePassword}
-                onCheckedChange={(checked) => setAutoGeneratePassword(checked)}
-                className="tw-mr-2"
-              />
-
-              <FormLabel htmlFor="autoGeneratePassword" className="tw-text-[12px] tw-w-[410px] tw-font-medium tw-leading-[24px] tw-text-[#0a0a0a]">
+  id="autoGeneratePassword"
+  checked={autoGeneratePassword}
+  onCheckedChange={(checked) => {
+    if (typeof checked === 'boolean') {
+      setAutoGeneratePassword(checked);
+    }
+  }}
+  className="tw-mr-2"
+/>
+    <FormLabel htmlFor="autoGeneratePassword" className="tw-text-[12px] tw-w-[410px] tw-font-medium tw-leading-[24px] tw-text-black">
                   Generate new password and notify user immediately
               </FormLabel>
               </div>
@@ -322,13 +321,13 @@ function UserAddPage() {
                               id="active"
                               className="tw-rounded tw-border-gray-300 tw-text-blue-600 tw-focus:ring-blue-500"
                             />
-                            <label htmlFor="active" className="tw-text-[13px]">Active</label>
+                            <label htmlFor="active">Active</label>
                             <RadioGroupItem
                               value="inactive"
                               id="inactive"
                               className="tw-rounded tw-border-gray-300 tw-text-blue-600 tw-focus:ring-blue-500"
                             />
-                            <label htmlFor="inactive" className="tw-text-[13px]">Inactive</label>
+                            <label htmlFor="inactive">Inactive</label>
                           </div>
                         </RadioGroup>
                       </FormControl>
@@ -338,26 +337,24 @@ function UserAddPage() {
               </div>
             </div>
 
-            <div className="tw-flex tw-justify-between tw-items-center tw-mt-4">
-              <p className="tw-text-[13px] tw-text-primary tw-italic tw-w-[251px] tw-h-[20px] tw-top-[300px] tw-left-[26px] tw-mt-1">
+            <div className="tw-flex tw-justify-between tw-items-center tw-mt-8">
+              <p className="tw-text-[13px] tw-text-primary tw-w-[251px] tw-h-[20px] tw-top-[300px] tw-left-[26px] tw-mt-1">
                 All fields are mandatory*
               </p>
             </div>
-            <div className="tw-mt-2">
-              {/* <hr className="tw-border-t tw-border-gray-300 tw-w-[700px]" /> */}
+            <div className="tw-mt-4">
               <Separator className="tw-border-t tw-border-gray-300 tw-w-[700px]" />
             </div>
             <Button
               type="submit"
               variant="default"
-              className="tw-bg-primary tw-text-white tw-rounded-md tw-px-4 tw-py-2 tw-mt-5"
+              className="tw-bg-primary tw-text-white tw-rounded-md tw-px-4 tw-py-2 tw-mt-8"
             >
               Submit
             </Button>
             <AlertDialog open={isDialogOpen} onOpenChange={setIsDialogOpen}>
   <AlertDialogContent className="tw-w-[333px] tw-h-[244px] tw-px-6 tw-py-4 tw-flex tw-flex-col tw-items-center">
     <div className="tw-ml-[280px]">
-  {/* <X  size={15} className="tw-text-gray-500"/> */}
   <X size={15} className="tw-text-gray-500 tw-cursor-pointer" onClick={closeAlertDialog} />
   </div>
     <div className="tw-ml-[108px]">

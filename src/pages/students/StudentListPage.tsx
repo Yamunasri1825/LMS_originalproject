@@ -218,7 +218,7 @@ const UserListPage = () => {
       <div className="tw-flex tw-justify-between tw-items-center tw-mb-4">
         <div className="tw-flex tw-gap-2 tw-w-[600px]">
           <Select onValueChange={setFilterField}>
-            <SelectTrigger className="tw-bg-white tw-h-[33px] tw-w-[140px] tw-text-primary tw-border-[#1D1F71]">
+            <SelectTrigger className="tw-bg-white tw-h-[33px] tw-w-[150px] tw-text-primary tw-border-[#1D1F71]">
               <SelectValue placeholder="Filter" />
             </SelectTrigger>
             <SelectContent>
@@ -231,7 +231,7 @@ const UserListPage = () => {
           </Select>
 
           <Select onValueChange={setFilterCondition}>
-            <SelectTrigger className="tw-bg-white tw-h-[35px] tw-w-[110px] tw-text-primary tw-border-[#1D1F71]">
+            <SelectTrigger className="tw-bg-white tw-h-[35px] tw-w-[150px] tw-text-primary tw-border-[#1D1F71]">
               <SelectValue placeholder="Contains" />
             </SelectTrigger>
             <SelectContent>
@@ -243,7 +243,7 @@ const UserListPage = () => {
 
           <div>
             <Input
-              className="tw-bg-white tw-h-[35px] tw-w-[300px] tw-left-[2px] tw-border-[#1D1F71]"
+              className="tw-bg-white tw-h-[35px] tw-w-[270px] tw-left-[2px] tw-border-[#1D1F71]"
               type="text"
               placeholder="Write"
               value={filterQuery}
@@ -260,7 +260,7 @@ const UserListPage = () => {
           </a>
           <Link
   to="/students/StudentAdd"
-  className="tw-bg-[#1D1F71] tw-text-[#FFFFFF] tw-text-[13px] tw-h-[35px] hover:tw-bg-primary/180 tw-flex tw-items-center tw-px-2 tw-py-1 tw-rounded"
+  className="tw-bg-[#1D1F71] tw-text-[#FFFFFF] tw-text-[13px] tw-h-[35px] hover:tw-bg-primary tw-flex tw-items-center tw-px-2 tw-py-1 tw-rounded"
   onClick={() => setCurrentView('add')}
 >
   <Plus className="tw-h-[25px] tw-w-[15px] tw-mr-1" /> Add Student
@@ -322,8 +322,8 @@ const UserListPage = () => {
 
                 <TableCell className="tw-py-3 tw-px-4 tw-text-center">
                   <button
-                    className="tw-w-5 tw-h-4 tw-flex tw-items-center tw-justify-center tw-bg-transparent tw-border-none tw-cursor-pointer"
-                    onClick={onEdit}
+                    className="tw-w-5 tw-h-4 tw-flex tw-ml-6 tw-justify-center tw-bg-transparent tw-border-none tw-cursor-pointer"
+                    onClick={() => setCurrentView('add')}
                     aria-label="Edit"
                   >
                     <Pencil className="tw-h-4 tw-w-4" />
@@ -341,28 +341,31 @@ const UserListPage = () => {
           <span className="tw-mr-4">Page</span>
           {currentPage}
         </div>
-        <div className="tw-flex tw-items-center tw-space-x-2 tw-mr-[-75px]">
-          <Pagination className="tw-flex tw-items-center tw-space-x-2">
-            <PaginationContent className="tw-flex tw-items-center tw-space-x-1">
-              <PaginationItem>
-                <PaginationPrevious
-                  className="tw-px-3 tw-py-1 tw-cursor-pointer"
-                  onClick={() =>
-                    setCurrentPage((prev) => Math.max(prev - 1, 1))
-                  }
-                />
-              </PaginationItem>
-          
-              <PaginationItem>
-                <PaginationNext
-                  className="tw-px-3 tw-py-1 tw-cursor-pointer"
-                  onClick={() =>
-                    setCurrentPage((prev) => Math.min(prev + 1, totalPages))
-                  }
-                />
-              </PaginationItem>
-            </PaginationContent>
-          </Pagination>
+        <div className="tw-flex tw-items-center tw-space-x-2 tw-mr-[-275px]">
+        <Pagination className="tw-flex tw-items-center tw-space-x-2">
+  <PaginationContent className="tw-flex tw-items-center tw-space-x-1">
+    <PaginationItem>
+      <PaginationPrevious
+        className={`tw-px-3 tw-py-1 tw-cursor-pointer ${currentPage === 1 ? 'tw-opacity-50 tw-cursor-not-allowed' : ''}`}
+        onClick={() =>
+          setCurrentPage((prev) => Math.max(prev - 1, 1))
+        }
+        disabled={currentPage === 1}
+      />
+    </PaginationItem>
+    
+    <PaginationItem>
+      <PaginationNext
+        className={`tw-px-3 tw-py-1 tw-cursor-pointer ${currentPage === totalPages ? 'tw-opacity-50 tw-cursor-not-allowed' : ''}`}
+        onClick={() =>
+          setCurrentPage((prev) => Math.min(prev + 1, totalPages))
+        }
+        disabled={currentPage === totalPages}
+      />
+    </PaginationItem>
+  </PaginationContent>
+</Pagination>
+
         </div>
       </div>
     </div>

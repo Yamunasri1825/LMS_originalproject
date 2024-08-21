@@ -1,7 +1,6 @@
 import React, { useState } from 'react';
 import UserAddPage from './UserAddPage';
 import { Link } from '@tanstack/react-router';
-import UserEditPage from './UserEditPage';
 import { Pencil, Plus } from 'lucide-react';
 import { Button } from '@/components/ui/button';
 import { buttonVariants } from "@/components/ui/button"
@@ -200,14 +199,14 @@ const [isEditing, setIsEditing] = useState(false);
   };
   
   // Dynamic table height
-  const tableHeight = Math.min(currentUsers.length * 95, 450);
+  const tableHeight = Math.min(currentUsers.length * 95, 450); 
 
   return (
-    <div className="tw-p-8 tw-pl-0 tw-bg-colors tw-overflow-hidden">
+    <div className="tw-p-8 tw-pl-0  tw-overflow-hidden">
     <div className="tw-flex tw-justify-between tw-items-center tw-mb-4">
       <div className="tw-flex tw-gap-2 tw-w-[600px]">
         <Select onValueChange={setFilterField}>
-          <SelectTrigger className="tw-bg-white tw-h-[33px] tw-w-[140px] tw-text-primary tw-border-[#1D1F71]">
+          <SelectTrigger className="tw-bg-white tw-h-[33px] tw-w-[140px] tw-text-primary tw-border-primary">
             <SelectValue placeholder="Filter" />
           </SelectTrigger>
           <SelectContent>
@@ -232,7 +231,7 @@ const [isEditing, setIsEditing] = useState(false);
 
         <div>
           <Input
-            className="tw-bg-white tw-h-[35px] tw-w-[300px] tw-left-[2px]  tw-border-[#1D1F71]"
+            className="tw-bg-white tw-h-[35px] tw-w-[270px] tw-left-[2px]  tw-border-[#1D1F71]"
             type="text"
             placeholder="Write"
             value={filterQuery}
@@ -314,7 +313,7 @@ const [isEditing, setIsEditing] = useState(false);
 </TableCell>
                 <TableCell className="tw-py-3 tw-px-4 tw-text-center">
                   <button
-                    className="tw-w-5 tw-h-4 tw-flex tw-items-center tw-justify-center tw-bg-transparent tw-border-none tw-cursor-pointer"
+                    className="tw-w-5 tw-h-4 tw-ml-6 tw-flex tw-items-center tw-justify-center tw-bg-transparent tw-border-none tw-cursor-pointer"
                     onClick={() => setCurrentViews('edit')}
                     aria-label="Edit"
                   >
@@ -331,28 +330,31 @@ const [isEditing, setIsEditing] = useState(false);
           <span className="tw-mr-4">Page</span>
           {currentPage}
         </div>
-        <div className="tw-flex tw-items-center tw-space-x-2 tw-mr-[-75px]">
-          <Pagination className="tw-flex tw-items-center tw-space-x-2">
-            <PaginationContent className="tw-flex tw-items-center tw-space-x-1">
-              <PaginationItem>
-                <PaginationPrevious
-                  className="tw-px-3 tw-py-1 tw-cursor-pointer"
-                  onClick={() =>
-                    setCurrentPage((prev) => Math.max(prev - 1, 1))
-                  }
-                />
-              </PaginationItem>
-             
-              <PaginationItem>
-                <PaginationNext
-                  className="tw-px-3 tw-py-1 tw-cursor-pointer"
-                  onClick={() =>
-                    setCurrentPage((prev) => Math.min(prev + 1, totalPages))
-                  }
-                />
-              </PaginationItem>
-            </PaginationContent>
-          </Pagination>
+        <div className="tw-flex tw-items-center tw-space-x-2 tw-mr-[-275px]">
+        <Pagination className="tw-flex tw-items-center tw-space-x-2">
+  <PaginationContent className="tw-flex tw-items-center tw-space-x-1">
+    <PaginationItem>
+      <PaginationPrevious
+        className={`tw-px-3 tw-py-1 tw-cursor-pointer ${currentPage === 1 ? 'tw-opacity-50 tw-cursor-not-allowed' : ''}`}
+        onClick={() =>
+          setCurrentPage((prev) => Math.max(prev - 1, 1))
+        }
+        aria-disabled={currentPage === 1}
+      />
+    </PaginationItem>
+    
+    <PaginationItem>
+      <PaginationNext
+        className={`tw-px-3 tw-py-1 tw-cursor-pointer ${currentPage === totalPages ? 'tw-opacity-50 tw-cursor-not-allowed' : ''}`}
+        onClick={() =>
+          setCurrentPage((prev) => Math.min(prev + 1, totalPages))
+        }
+        aria-disabled={currentPage === totalPages}
+      />
+    </PaginationItem>
+  </PaginationContent>
+</Pagination>
+
         </div>
       </div>
       
