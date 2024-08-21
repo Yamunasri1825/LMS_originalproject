@@ -2,9 +2,9 @@ import React, { useState } from 'react';
 import UserAddPage from './UserAddPage';
 import { Link } from '@tanstack/react-router';
 import { Pencil, Plus } from 'lucide-react';
-import { Button } from '@/components/ui/button';
-import { buttonVariants } from "@/components/ui/button"
 import { Input } from '@/components/ui/input';
+import { Loader } from 'lucide-react';
+
 import {
   Select,
   SelectContent,
@@ -32,7 +32,6 @@ import {
 } from '@/components/ui/pagination';
 
 const users = [
-  // Your user data
   {
     id: 'AB12456',
     name: 'Scarlett Johansson',
@@ -123,27 +122,23 @@ const users = [
     roles: 'employee',
     status: 'active',
   },
-  // Other user data...
+
 ];
 
 const UserListPage = () => {
   const [currentPage, setCurrentPage] = useState(1);
   const [currentView, setCurrentView] = useState('list');
   const [currentViews, setCurrentViews] = useState('list1');
-  const [filterField, setFilterField] = useState('Organization'); // Default filter field
-  const [filterCondition, setFilterCondition] = useState('contains'); // Default filter condition
-  const [filterQuery, setFilterQuery] = useState(''); // Filter query
+  const [filterField, setFilterField] = useState('Organization');
+  const [filterCondition, setFilterCondition] = useState('contains');
+  const [filterQuery, setFilterQuery] = useState('');
   const usersPerPage = 5;
 
-  // Filtering function
+
   const filterUsers = (user) => {
     const query = filterQuery.toLowerCase();
 
     switch (filterField) {
-      case 'User ID':
-        return filterCondition === 'contains'
-          ? user.id.toLowerCase().includes(query)
-          : user.id.toLowerCase() === query;
       case 'Full Name':
         return filterCondition === 'contains'
           ? user.name.toLowerCase().includes(query)
@@ -165,10 +160,9 @@ const UserListPage = () => {
     }
   };
 
-  // Filter users before pagination
+
   const filteredUsers = users.filter(filterUsers);
 
-  // Pagination logic
   const indexOfLastUser = currentPage * usersPerPage;
   const indexOfFirstUser = indexOfLastUser - usersPerPage;
   const currentUsers = filteredUsers.slice(indexOfFirstUser, indexOfLastUser);
@@ -176,10 +170,8 @@ const UserListPage = () => {
   const totalPages = Math.ceil(filteredUsers.length / usersPerPage);
 
 
-  const [editingUser, setEditingUser] = useState(null);
-const [isEditing, setIsEditing] = useState(false);
 
-  // Handle page change
+
   const handlePageChange = (pageNumber) => {
     setCurrentPage(pageNumber);
   };
@@ -187,39 +179,29 @@ const [isEditing, setIsEditing] = useState(false);
   if (currentView === 'add') {
     return <UserAddPage />;
   }
-  // if (currentViews === 'edit') {
-  //   return <UserEditPage />;
-  // }
-   if (currentViews === 'edit') {
-    return <UserAddPage />;
-  }
-  const onEdit = (user) => {
-    setEditingUser(user);
-    setIsEditing(true);
-  };
+
   
-  // Dynamic table height
-  const tableHeight = Math.min(currentUsers.length * 95, 450); 
+
+  const tableHeight = Math.min(currentUsers.length * 105, 650); 
 
   return (
     <div className="tw-p-8 tw-pl-0  tw-overflow-hidden">
     <div className="tw-flex tw-justify-between tw-items-center tw-mb-4">
-      <div className="tw-flex tw-gap-2 tw-w-[600px]">
+      <div className="tw-flex tw-gap-2 tw-w-[550px]">
         <Select onValueChange={setFilterField}>
-          <SelectTrigger className="tw-bg-white tw-h-[33px] tw-w-[140px] tw-text-primary tw-border-primary">
+          <SelectTrigger className="tw-bg-white tw-h-[33px] tw-w-[145px] tw-text-primary tw-border-primary">
             <SelectValue placeholder="Filter" />
           </SelectTrigger>
           <SelectContent>
             <SelectItem value="Organization">Organization</SelectItem>
-            <SelectItem value="No.of Batches">No.of Batches</SelectItem>
-            <SelectItem value="Email Address">Email Address</SelectItem>
+            <SelectItem value="Roles">Roles</SelectItem>
+            <SelectItem value="Full Name">Full Name</SelectItem>
             <SelectItem value="Status">Status</SelectItem>
-            <SelectItem value="State">State</SelectItem>
           </SelectContent>
         </Select>
 
         <Select onValueChange={setFilterCondition}>
-          <SelectTrigger className="tw-bg-white tw-h-[35px] tw-w-[110px] tw-text-primary tw-border-[#1D1F71]">
+          <SelectTrigger className="tw-bg-white tw-h-[35px] tw-w-[145px] tw-text-primary tw-border-primary">
             <SelectValue placeholder="Contains" />
           </SelectTrigger>
           <SelectContent>
@@ -231,7 +213,7 @@ const [isEditing, setIsEditing] = useState(false);
 
         <div>
           <Input
-            className="tw-bg-white tw-h-[35px] tw-w-[270px] tw-left-[2px]  tw-border-[#1D1F71]"
+            className="tw-bg-white tw-h-[35px] tw-w-[280px] tw-left-[2px]  tw-border-primary"
             type="text"
             placeholder="Write"
             value={filterQuery}
@@ -246,16 +228,9 @@ const [isEditing, setIsEditing] = useState(false);
         >
           Data Import/Export
         </a>
-          {/* <Button
-            variant="default"
-            className="tw-bg-[#1D1F71] tw-text-[#FFFFFF] tw-text-[13px] tw-h-[35px] hover:tw-bg-primary/180"
-            onClick={() => setCurrentView('add')}
-          >
-            <Plus className="tw-h-[25px] tw-w-[15px]" /> Add User
-          </Button> */}
           <Link
   to="/users/add"
-  className="tw-bg-[#1D1F71] tw-text-[#FFFFFF] tw-text-[13px] tw-h-[35px] hover:tw-bg-primary/180 tw-flex tw-items-center tw-px-2 tw-py-1 tw-rounded"
+  className="tw-bg-primary tw-text-white tw-h-[35px] hover:tw-bg-primary/180 tw-flex tw-items-center tw-px-2 tw-py-1 tw-rounded"
   onClick={() => setCurrentView('add')}
 >
   <Plus className="tw-h-[25px] tw-w-[15px] tw-mr-1" /> Add User
@@ -267,36 +242,33 @@ const [isEditing, setIsEditing] = useState(false);
         <Table className={`tw-overflow-y-auto`} style={{ height: tableHeight }}>
           <TableHeader className="tw-p-4 tw-text-center tw-bg-[#FFDF9B]">
             <TableRow>
-              <TableHead className="tw-py-3 tw-px-4 tw-border-b tw-border-gray-300 tw-text-extend tw-font-semibold tw-text-center">
-                User ID
-              </TableHead>
-              <TableHead className="tw-py-3 tw-px-4 tw-border-b tw-border-gray-300 tw-text-extend tw-font-semibold tw-text-center">
+              <TableHead className="tw-py-3 tw-px-4 tw-border-gray-300 tw-text-extend tw-font-semibold tw-text-center">
                 Full Name
               </TableHead>
-              <TableHead className="tw-py-3 tw-px-4 tw-border-b tw-border-gray-300 tw-text-extend tw-font-semibold tw-text-center">
+              <TableHead className="tw-py-3 tw-px-4 tw-border-gray-300 tw-text-extend tw-font-semibold tw-text-center">
                 Email Address
               </TableHead>
-              <TableHead className="tw-py-3 tw-px-4 tw-border-b tw-border-gray-300 tw-text-extend tw-font-semibold tw-text-center">
+              <TableHead className="tw-py-3 tw-px-4 tw-border-gray-300 tw-text-extend tw-font-semibold tw-text-center">
                 Contact
               </TableHead>
-              <TableHead className="tw-py-3 tw-px-4 tw-border-b tw-border-gray-300 tw-text-extend tw-font-semibold tw-text-center">
+              <TableHead className="tw-py-3 tw-px-4 tw-border-gray-300 tw-text-extend tw-font-semibold tw-text-center">
                 Organization
               </TableHead>
-              <TableHead className="tw-py-3 tw-px-4 tw-border-b tw-border-gray-300 tw-text-extend tw-font-semibold tw-text-center">
+              <TableHead className="tw-py-3 tw-px-4 tw-border-gray-300 tw-text-extend tw-font-semibold tw-text-center">
                 Roles
               </TableHead>
-              <TableHead className="tw-py-3 tw-px-4 tw-border-b tw-border-gray-300 tw-text-extend tw-font-semibold tw-text-center">
+              <TableHead className="tw-py-3 tw-px-4 tw-border-gray-300 tw-text-extend tw-font-semibold tw-text-center">
                 Status
               </TableHead>
-              <TableHead className="tw-py-3 tw-px-4 tw-border-b tw-border-gray-300 tw-text-extend tw-font-semibold tw-text-center">
+              <TableHead className="tw-py-3 tw-px-4 tw-border-gray-300 tw-text-extend tw-font-semibold tw-text-center">
                 Action
               </TableHead>
             </TableRow>
           </TableHeader>
           <TableBody>
+          
             {currentUsers.map((user, index) => (
               <TableRow key={index} className="tw-border-b tw-border-gray-300 ">
-                <TableCell className="tw-py-3 tw-px-4 tw-text-center">{user.id}</TableCell>
                 <TableCell className="tw-py-3 tw-px-4 tw-text-center">{user.name}</TableCell>
                 <TableCell className="tw-py-3 tw-px-4 tw-text-center">{user.email}</TableCell>
                 <TableCell className="tw-py-3 tw-px-4 tw-text-center">{user.contact}</TableCell>

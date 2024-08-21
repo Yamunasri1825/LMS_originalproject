@@ -1,7 +1,6 @@
 import React, { useState } from 'react';
 import StudentAddPage from './StudentAddPage';
 import { Pencil, Plus } from 'lucide-react';
-import { Button } from '@/components/ui/button';
 import { Input } from '@/components/ui/input';
 import { Link } from '@tanstack/react-router';
 import {
@@ -31,7 +30,6 @@ import {
 } from '@/components/ui/pagination';
 
 const users = [
-  // Your user data
   {
     studentid: 'Ab1243545',
     studentName: 'YAmuna',
@@ -138,18 +136,17 @@ const users = [
     status: 'inActive',
   },
 
-  // Add more user data here
 ];
 
 const UserListPage = () => {
   const [currentPage, setCurrentPage] = useState(1);
   const [currentView, setCurrentView] = useState('list');
-  const [filterField, setFilterField] = useState('Student ID'); // Default filter field
-  const [filterCondition, setFilterCondition] = useState('contains'); // Default filter condition
-  const [filterQuery, setFilterQuery] = useState(''); // Filter query
+  const [filterField, setFilterField] = useState('Student ID'); 
+  const [filterCondition, setFilterCondition] = useState('contains');
+  const [filterQuery, setFilterQuery] = useState(''); 
   const usersPerPage = 5;
 
-  // Filtering function
+
   const filterUsers = (user) => {
     const query = filterQuery.toLowerCase();
 
@@ -183,17 +180,16 @@ const UserListPage = () => {
     }
   };
 
-  // Filter users before pagination
+
   const filteredUsers = users.filter(filterUsers);
 
-  // Pagination logic
+
   const indexOfLastUser = currentPage * usersPerPage;
   const indexOfFirstUser = indexOfLastUser - usersPerPage;
   const currentUsers = filteredUsers.slice(indexOfFirstUser, indexOfLastUser);
 
   const totalPages = Math.ceil(filteredUsers.length / usersPerPage);
 
-  // Handle page change
   const handlePageChange = (pageNumber) => {
     setCurrentPage(pageNumber);
   };
@@ -202,23 +198,16 @@ const UserListPage = () => {
     return <StudentAddPage />;
   }
 
-  function onEdit() {
-    // Edit logic
-  }
 
-  // Dynamic table height
-  const tableHeight = Math.min(currentUsers.length * 95, 450);
-  // const heightClass = filteredUsers.length > 10 ? 'tw-h-150' : 'tw-h-auto';
-  // Determine height class based on number of filtered users
-  // const numUsers = filteredUsers.length;
-  // const heightClass = numUsers > 10 ? 'tw-h-100' : 'tw-h-auto'; // Example: adjust class names as needed
+
+  const tableHeight = Math.min(currentUsers.length * 105, 650);
 
   return (
     <div className="tw-p-8 tw-pl-0 tw-bg-colors tw-overflow-hidden">
       <div className="tw-flex tw-justify-between tw-items-center tw-mb-4">
-        <div className="tw-flex tw-gap-2 tw-w-[600px]">
+        <div className="tw-flex tw-gap-2 tw-w-[550px]">
           <Select onValueChange={setFilterField}>
-            <SelectTrigger className="tw-bg-white tw-h-[33px] tw-w-[150px] tw-text-primary tw-border-[#1D1F71]">
+            <SelectTrigger className="tw-bg-white tw-h-[33px] tw-w-[145px] tw-text-primary tw-border-primary">
               <SelectValue placeholder="Filter" />
             </SelectTrigger>
             <SelectContent>
@@ -231,7 +220,7 @@ const UserListPage = () => {
           </Select>
 
           <Select onValueChange={setFilterCondition}>
-            <SelectTrigger className="tw-bg-white tw-h-[35px] tw-w-[150px] tw-text-primary tw-border-[#1D1F71]">
+            <SelectTrigger className="tw-bg-white tw-h-[35px] tw-w-[145px] tw-text-primary tw-border-primary">
               <SelectValue placeholder="Contains" />
             </SelectTrigger>
             <SelectContent>
@@ -243,7 +232,7 @@ const UserListPage = () => {
 
           <div>
             <Input
-              className="tw-bg-white tw-h-[35px] tw-w-[270px] tw-left-[2px] tw-border-[#1D1F71]"
+              className="tw-bg-white tw-h-[35px] tw-w-[280px] tw-left-[2px] tw-border-primary"
               type="text"
               placeholder="Write"
               value={filterQuery}
@@ -273,9 +262,6 @@ const UserListPage = () => {
           <TableHeader className="tw-p-4 tw-text-center tw-bg-[#FFDF9B]">
             <TableRow>
               <TableHead className="tw-py-3 tw-px-4 tw-border-b tw-border-gray-300 tw-text-extend tw-font-semibold tw-text-center">
-                Student ID
-              </TableHead>
-              <TableHead className="tw-py-3 tw-px-4 tw-border-b tw-border-gray-300 tw-text-extend tw-font-semibold tw-text-center">
                 Student Name
               </TableHead>
               <TableHead className="tw-py-3 tw-px-4 tw-border-b tw-border-gray-300 tw-text-extend tw-font-semibold tw-text-center">
@@ -301,7 +287,6 @@ const UserListPage = () => {
           <TableBody>
             {currentUsers.map((user, index) => (
               <TableRow key={index} className="tw-border-b tw-border-gray-300">
-                <TableCell className="tw-py-3 tw-px-4 tw-text-center">{user.studentid}</TableCell>
                 <TableCell className="tw-py-3 tw-px-4 tw-text-center">{user.studentName}</TableCell>
                 <TableCell className="tw-py-3 tw-px-4 tw-text-center">{user.email}</TableCell>
                 <TableCell className="tw-py-3 tw-px-4 tw-text-center">{user.mentor}</TableCell>
@@ -350,7 +335,7 @@ const UserListPage = () => {
         onClick={() =>
           setCurrentPage((prev) => Math.max(prev - 1, 1))
         }
-        disabled={currentPage === 1}
+        aria-disabled={currentPage === 1}
       />
     </PaginationItem>
     
@@ -360,7 +345,7 @@ const UserListPage = () => {
         onClick={() =>
           setCurrentPage((prev) => Math.min(prev + 1, totalPages))
         }
-        disabled={currentPage === totalPages}
+        aria-disabled={currentPage === totalPages}
       />
     </PaginationItem>
   </PaginationContent>

@@ -122,7 +122,7 @@ function UserAddPage() {
       <div className="tw-mt-4">
         <a href="#" className="tw-text-primary tw-underline tw-w-[200px] tw-text-[14px]">Data Import/Export</a>
       </div>
-      <div className="tw-mt-8 tw-bg-white tw-p-8 tw-rounded-lg tw-shadow-lg tw-border tw-w-[770px] tw-h-[470px] tw-border-gray-300">
+      <div className="tw-mt-8 tw-bg-white tw-p-8 tw-rounded-lg tw-shadow-lg tw-border tw-w-[790px] tw-h-[570px] tw-border-gray-300">
         <Form {...formInstance}>
           <form onSubmit={handleSubmit(handleFormSubmit)}>
             <div className="tw-w-[616px] tw-h-[176px]">
@@ -177,7 +177,7 @@ function UserAddPage() {
                 </div>
               </div>
 
-              <div className="tw-grid tw-grid-cols-2 tw-gap-4 tw-mt-4">
+              <div className="tw-grid tw-grid-cols-2 tw-gap-4 tw-mt-7">
                 <div className="tw-w-[340px] tw-h-[46px] tw-gap-[8px] tw-bg-white">
                   <FormLabel className="tw-block tw-text-[12px]  tw-mb-1 tw-font-medium tw-leading-[24px] tw-tracking-[-0.025em] tw-text-left tw-text-[#030303]">
                     Email ID
@@ -210,7 +210,7 @@ function UserAddPage() {
                 </div>
               </div>
 
-              <div className="tw-grid tw-grid-cols-2 tw-gap-4 tw-mt-8">
+              <div className="tw-grid tw-grid-cols-2 tw-gap-4 tw-mt-10">
                 <div className="tw-w-[340px] tw-h-[46px] tw-gap-[8px] tw-bg-white">
                   <FormLabel className="tw-block tw-text-[12px]  tw-mb-1 tw-font-medium tw-leading-[24px] tw-tracking-[-0.025em] tw-text-left tw-text-[#030303]">
                     State
@@ -243,7 +243,7 @@ function UserAddPage() {
                   </FormMessage>
                 </div>
               </div>
-              <div className="tw-w-[340px] tw-h-[46px] tw-gap-[8px] tw-ml-[1px] tw-mt-7">
+              <div className="tw-w-[340px] tw-h-[46px] tw-gap-[8px] tw-ml-[1px] tw-mt-9">
                 <FormLabel className="tw-block tw-text-[12px]  tw-mb-1 tw-font-medium tw-leading-[24px] tw-tracking-[-0.025em] tw-text-left tw-text-[#030303]">
                   Pincode
                 </FormLabel>
@@ -259,30 +259,33 @@ function UserAddPage() {
                 </FormMessage>
               </div>
 
-              <div className="tw-flex tw-items-center tw-space-x-3 tw-mt-[30px]">
+              <div className="tw-flex tw-items-center tw-space-x-3 tw-mt-[50px]">
                 <div className="tw-w-[600px] tw-flex tw-gap-[8px]">
-                  <Checkbox
-                    id="autoGeneratePassword"
-                    checked={autoGeneratePassword}
-                    onCheckedChange={(checked) => setAutoGeneratePassword(checked)}
-                    className="tw-mr-2"
-                  />
-                  <FormLabel htmlFor="autoGeneratePassword" className="tw-text-[12px] tw-w-[410px] tw-font-medium tw-leading-[24px] tw-text-[#0a0a0a]">
+                   <Checkbox
+  id="autoGeneratePassword"
+  checked={autoGeneratePassword}
+  onCheckedChange={(checked) => {
+    if (typeof checked === 'boolean') {
+      setAutoGeneratePassword(checked);
+    }
+  }}
+  className="tw-mr-2"
+/>
+                  <FormLabel htmlFor="autoGeneratePassword" className="tw-text-[12px] tw-w-[410px] tw-font-medium tw-leading-[24px] tw-text-black">
                     Organization Created in GitHub
                   </FormLabel>
                 </div>
               </div>
-              <div className="tw-flex tw-justify-between tw-items-center tw-mt-2">
+              <div className="tw-flex tw-justify-between tw-items-center tw-mt-4">
                 <p className="tw-text-[13px] tw-text-primary tw-italic tw-w-[251px] tw-h-[20px] tw-top-[300px] tw-left-[26px] tw-mt-1">
                   All fields are mandatory*
                 </p>
               </div>
 
-              <div className="tw-mt-2">
-                {/* <hr className="tw-border-t tw-border-gray-300 tw-w-[700px]" /> */}
+              <div className="tw-mt-4">
                 <Separator className="tw-border-t tw-border-gray-300 tw-w-[710px]" />
               </div>
-              <div className="tw-mt-[10px]">
+              <div className="tw-mt-[22px]">
                 <Button type="submit">Submit</Button>
               </div>
             </div>

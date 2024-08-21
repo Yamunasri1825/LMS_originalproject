@@ -402,11 +402,15 @@ function UserAddPage() {
             <div className="tw-flex tw-items-center tw-space-x-3 tw-mt-[60px]">
               <div className="tw-w-[600px] tw-flex tw-gap-[8px]">
               <Checkbox
-                id="autoGeneratePassword"
-                checked={autoGeneratePassword}
-                onCheckedChange={(checked) => setAutoGeneratePassword(checked)}
-                className="tw-mr-2"
-              />
+  id="autoGeneratePassword"
+  checked={autoGeneratePassword}
+  onCheckedChange={(checked) => {
+    if (typeof checked === 'boolean') {
+      setAutoGeneratePassword(checked);
+    }
+  }}
+  className="tw-mr-2"
+/>
 
               <FormLabel htmlFor="autoGeneratePassword" className="tw-text-[12px] tw-w-[410px] tw-font-medium tw-leading-[24px] tw-text-[#0a0a0a]">
                   Generate new password and notify user immediately

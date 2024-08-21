@@ -246,13 +246,24 @@ function UserAddPage() {
                   <FormLabel className="tw-block tw-text-[12px] tw-mb-1 tw-font-medium tw-text-left tw-text-black">
                     Organization
                   </FormLabel>
-                  <Input
-                    type="text"
-                    placeholder="Organization Name"
-                    className="tw-w-[330px] tw-h-[40px] tw-radius-[4px] tw-text-black"
-                    {...formInstance.register("company")}
-                    onChange={() => clearErrors("company")}
-                  />
+                  <Select
+  {...formInstance.register("company")}
+  value={formInstance.getValues("company") || ""}
+  onValueChange={(value) => {
+    formInstance.setValue("company", value);
+    clearErrors("company");
+  }}
+>
+  <SelectTrigger className="tw-bg-white tw-h-[40px] tw-w-[330px] tw-text-primary">
+    <SelectValue placeholder="Organization Name" />
+  </SelectTrigger>
+  <SelectContent>
+    <SelectItem value="organization1">Organization 1</SelectItem>
+    <SelectItem value="organization2">Organization 2</SelectItem>
+    <SelectItem value="organization3">Organization 3</SelectItem>
+  </SelectContent>
+</Select>
+
                   <FormMessage className="tw-text-red-500">
                     {formState.errors.company?.message?.toString()}
                   </FormMessage>
