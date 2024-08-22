@@ -48,7 +48,6 @@ import {
 } from "@/components/ui/select";
 import { parsePhoneNumber } from "libphonenumber-js";
 
-// Dummy data for programs and courses
 const dummyData = [
   { id: 1, name: "Java" },
   { id: 2, name: "React" },
@@ -58,7 +57,6 @@ const dummyData = [
 ];
 
 
-// Form schema definition
 const userSchema = z.object({
   studentId: z.string().min(1, "Student ID is required"),
   fullName: z.string().min(2, "Full Name is required"),
@@ -76,12 +74,10 @@ const userSchema = z.object({
   organization: z.string().min(2, "Organization is required."),
   apsche: z.enum(["Yes", "No"]),
   status: z.enum(["active", "inactive"]),
-  // gender: z.enum(["Male", "Female", "Other"]),
   gender: z.string().min(1, "gender is required"),
 });
 
 function UserAddPage() {
-  // const [selectedDate, setSelectedDate] = useState<Date | undefined>();
   const [selectedDate, setSelectedDate] = useState<Date | null>(null);
   const [view, setView] = useState<'month' | 'year'>('month');
   const [showYearPicker, setShowYearPicker] = useState(false);
@@ -92,13 +88,13 @@ function UserAddPage() {
 
   const filteredData = dummyData.filter((item) =>
     item.name.toLowerCase().includes(searchTerm.toLowerCase()) &&
-    item.name !== selectedCourse // Exclude selected course
+    item.name !== selectedCourse 
   );
   const handleDateSelect = (date: Date | null) => {
     if (date) {
       setSelectedDate(date);
-      setValue('dob', date, { shouldValidate: true }); // Update the form value and trigger validation
-      setView('month'); // Switch back to month view after selecting a date
+      setValue('dob', date, { shouldValidate: true });
+      setView('month');
     }
   };
   const handleCalendarChange = (value: Date | Date[] | null) => {
@@ -163,7 +159,6 @@ function UserAddPage() {
                 setSelectedCourse("");
               }
      
-       // Clear selected course after submission
     } else {
       alert("Please select a course.");
     }
@@ -190,7 +185,7 @@ function UserAddPage() {
     <Input
       type="text"
       placeholder="Search Course or Program"
-      className="tw-pl-10 tw-w-[390px] tw-h-[40px] tw-rounded-[5px] tw-border tw-border-primary tw-text-[#020202] focus:tw-outline-none"
+      className="tw-pl-10 tw-w-[390px] tw-h-[40px] tw-rounded-[5px] tw-border tw-border-primary tw-text-black focus:tw-outline-none"
       value={selectedCourse || searchTerm}
       onChange={(e) => {
         setSearchTerm(e.target.value);
@@ -244,11 +239,19 @@ function UserAddPage() {
         
               <div className="tw-w-[340px]">
                 <FormLabel className="tw-text-[12px]">Gender</FormLabel>
-                <Input
-                  type="text"
-                  placeholder="Gender"
-                  {...formInstance.register("organization")}
-                />
+                <Select
+  onValueChange={(value) => setValue("organization", value, { shouldValidate: true })}
+>
+  <SelectTrigger className="tw-bg-white">
+    <SelectValue placeholder="Select Gender" />
+  </SelectTrigger>
+  <SelectContent>
+    <SelectItem value="male">Male</SelectItem>
+    <SelectItem value="female">Female</SelectItem>
+    <SelectItem value="other">Other</SelectItem>
+  </SelectContent>
+</Select>
+
                 <FormMessage className="tw-text-red-500">
                   {formState.errors.gender?.message?.toString()}
                 </FormMessage>
@@ -306,7 +309,8 @@ function UserAddPage() {
           onChange={handleCalendarChange}
           value={selectedDate}
           view={view}
-          onViewChange={(newView) => setView(newView as 'month' | 'year')}
+          onViewChange={(newView) => setView(newView as unknown as 'month' | 'year')}
+
           // If you want to toggle views between month and year, you need to handle view changes.
         />
         <div className="tw-mt-2">
@@ -345,7 +349,7 @@ function UserAddPage() {
   <Select
     onValueChange={(value) => setValue("batch", value, { shouldValidate: true })}
   >
-    <SelectTrigger>
+    <SelectTrigger className="tw-bg-white">
       <SelectValue placeholder="Batch 1" />
     </SelectTrigger>
     <SelectContent>
@@ -369,7 +373,7 @@ function UserAddPage() {
                 <div className="tw-w-[340px]">
                 <FormLabel className="tw-text-[12px] ">Organization</FormLabel>
                 <Select {...formInstance.register("organization")}>
-                  <SelectTrigger>
+                  <SelectTrigger className="tw-bg-white">
                     <SelectValue placeholder="XYZ Organization" />
                   </SelectTrigger>
                   <SelectContent>
@@ -386,7 +390,7 @@ function UserAddPage() {
               <div className="tw-w-[340px]">
                 <FormLabel className="tw-text-[12px]">APSCHE</FormLabel>
                 <Select {...formInstance.register("apsche")}>
-                  <SelectTrigger>
+                  <SelectTrigger className="tw-bg-white">
                     <SelectValue placeholder="Yes" />
                   </SelectTrigger>
                   <SelectContent>

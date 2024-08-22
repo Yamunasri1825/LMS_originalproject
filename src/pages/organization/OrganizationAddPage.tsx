@@ -1,4 +1,4 @@
-//add Organization                                                                                                                                     import * as React from "react";
+
 import { useState, useEffect } from "react";
 import { Input } from "@/components/ui/input";
 import { useForm } from "react-hook-form";
@@ -41,29 +41,25 @@ const userSchema = z.object({
   organizationId: z.string().min(2, "Organization ID is required."),
   address: z.string().min(2, "Address is required."),
   state: z.string().min(2, "State is required."),
-  pincode: z.string().min(4, "Pincode is required."),
-  // status: z.enum(["active", "inactive"]),
+  pincode: z
+  .string()
+  .length(6, "Pincode must be exactly 6 digits."),
 });
-
-// Phone number handling
 const handlePhoneChange = (formHandler) => {
   const phoneNumber = formHandler.getValues("contactDetails.phone");
   if (phoneNumber) {
     try {
       const parsedNumber = parsePhoneNumber(phoneNumber);
       formHandler.setValue("contactDetails.dialingCode", parsedNumber.countryCallingCode);
-      formHandler.setValue("contactDetails.phone", parsedNumber.formatInternational()); // Retain international format
+      formHandler.setValue("contactDetails.phone", parsedNumber.formatInternational());
     } catch (error) {
       console.error("Invalid phone number", error);
     }
   }
 };
-
 function UserAddPage() {
-  // const [selectedDate, setSelectedDate] = useState<Date | undefined>();
   const [isDialogOpen, setIsDialogOpen] = useState(false);
   const [autoGeneratePassword, setAutoGeneratePassword] = useState(false);
-
   const formInstance = useForm({
     resolver: zodResolver(userSchema),
     defaultValues: {
@@ -77,17 +73,12 @@ function UserAddPage() {
       address: "",
       pincode: "",
       state:"",
-      // status: "active",
     },
   });
-
   const { handleSubmit, reset, watch, formState, setValue, clearErrors } = formInstance;
-  // const observedStatus = watch("status");
-
   useEffect(() => {
     handlePhoneChange(formInstance);
   }, [formInstance]);
-
   const handleFormSubmit = (data) => {
     console.log(data);
     if (autoGeneratePassword) {
@@ -105,15 +96,12 @@ function UserAddPage() {
         pincode: "",
         state:"",
       });
-      // setSelectedDate(undefined);
       setAutoGeneratePassword(false);
     }
   };
-
   const closeAlertDialog = () => {
     setIsDialogOpen(false);
   };
-
   return (
     <>
       <p className="tw-h-[7px] tw-w-[560px] tw-top-[120px] tw-left-[234px] tw-text-extend tw-text-[10px] tw-text-[#4B4B4B]">
@@ -128,13 +116,13 @@ function UserAddPage() {
             <div className="tw-w-[616px] tw-h-[176px]">
               <div className="tw-grid tw-grid-cols-2 tw-gap-4">
                 <div className="tw-w-[340px] tw-h-[46px] tw-gap-[8px]">
-                  <FormLabel className="tw-block tw-text-[12px] tw-mb-1 tw-font-medium tw-leading-[24px] tw-tracking-[-0.025em] tw-text-left tw-text-[#030303]">
+                  <FormLabel className="tw-block tw-mb-1 tw-font-medium tw-text-left tw-text-black">
                     Full Name
                   </FormLabel>
                   <Input
                     type="text"
                     placeholder="Full Name"
-                    className="tw-w-[330px] tw-h-[40px] tw-radius-[4px] tw-text-[#070707]"
+                    className="tw-w-[330px] tw-h-[40px] tw-radius-[4px] tw-text-black"
                     {...formInstance.register("fullName")}
                     onChange={() => clearErrors("fullName")}
                   />
@@ -148,7 +136,7 @@ function UserAddPage() {
                     name="contactDetails.phone"
                     render={({ field }) => (
                       <FormItem className="tw-w-full">
-                        <FormLabel htmlFor="phoneNumber" className="tw-block tw-text-[10px] tw-font-medium tw-font-extend tw-leading-[24px] tw-tracking-[-0.025em] tw-text-left tw-text-[#030303] tw-mt-2">
+                        <FormLabel htmlFor="phoneNumber" className="tw-block tw-font-medium tw-text-left tw-text-black tw-mt-2">
                           Phone Number
                         </FormLabel>
                         <FormControl className="tw-w-full">
@@ -163,9 +151,9 @@ function UserAddPage() {
                               clearErrors("contactDetails.phone");
                             }}
                             onBlur={() => {
-                              handlePhoneChange(formInstance); // Ensure the flag and country code are retained
+                              handlePhoneChange(formInstance);
                             }}
-                            defaultCountry="IN" // You can set a default country
+                            defaultCountry="IN"
                           />
                         </FormControl>
                         <FormMessage className="tw-text-red-500">
@@ -179,13 +167,13 @@ function UserAddPage() {
 
               <div className="tw-grid tw-grid-cols-2 tw-gap-4 tw-mt-7">
                 <div className="tw-w-[340px] tw-h-[46px] tw-gap-[8px] tw-bg-white">
-                  <FormLabel className="tw-block tw-text-[12px]  tw-mb-1 tw-font-medium tw-leading-[24px] tw-tracking-[-0.025em] tw-text-left tw-text-[#030303]">
+                  <FormLabel className="tw-block tw-text-[12px]  tw-mb-1 tw-font-medium tw-leading-[24px] tw-tracking-[-0.025em] tw-text-left tw-text-black">
                     Email ID
                   </FormLabel>
                   <Input
                     type="email"
                     placeholder="yourname@gmail.com"
-                    className="tw-w-[330px] tw-h-[40px] tw-radius-[4px] tw-text-[#020202]"
+                    className="tw-w-[330px] tw-h-[40px] tw-radius-[4px] tw-text-black"
                     {...formInstance.register("emailAddress")}
                     onChange={() => clearErrors("emailAddress")}
                   />
@@ -194,13 +182,13 @@ function UserAddPage() {
                   </FormMessage>
                 </div>
                 <div className="tw-w-[340px] tw-h-[46px] tw-gap-[8px] tw-ml-14 tw-mt-[-1px]">
-                  <FormLabel className="tw-block tw-text-[12px]  tw-mb-1 tw-font-medium tw-leading-[24px] tw-tracking-[-0.025em] tw-text-left tw-text-[#030303]">
+                  <FormLabel className="tw-block tw-text-[12px]  tw-mb-1 tw-font-medium tw-leading-[24px] tw-tracking-[-0.025em] tw-text-left tw-text-black">
                     Organization ID
                   </FormLabel>
                   <Input
                     type="text"
                     placeholder="Organization ID"
-                    className="tw-w-[330px] tw-h-[40px] tw-radius-[4px] tw-text-[#070707]"
+                    className="tw-w-[330px] tw-h-[40px] tw-radius-[4px] tw-text-black"
                     {...formInstance.register("organizationId")}
                     onChange={() => clearErrors("organizationId")}
                   />
@@ -212,13 +200,13 @@ function UserAddPage() {
 
               <div className="tw-grid tw-grid-cols-2 tw-gap-4 tw-mt-10">
                 <div className="tw-w-[340px] tw-h-[46px] tw-gap-[8px] tw-bg-white">
-                  <FormLabel className="tw-block tw-text-[12px]  tw-mb-1 tw-font-medium tw-leading-[24px] tw-tracking-[-0.025em] tw-text-left tw-text-[#030303]">
+                  <FormLabel className="tw-block tw-text-[12px]  tw-mb-1 tw-font-medium tw-leading-[24px] tw-tracking-[-0.025em] tw-text-left tw-text-black">
                     State
                   </FormLabel>
                   <Input
                     type="text"
                     placeholder="Andhra Pradesh"
-                    className="tw-w-[330px] tw-h-[40px] tw-radius-[4px] tw-text-[#070707]"
+                    className="tw-w-[330px] tw-h-[40px] tw-radius-[4px] tw-text-black"
                     {...formInstance.register("state")}
                     onChange={() => clearErrors("state")}
                   />
@@ -228,13 +216,13 @@ function UserAddPage() {
                 </div>
 
                 <div className="tw-w-[340px] tw-h-[46px] tw-gap-[8px] tw-bg-white tw-ml-[53px]">
-                  <FormLabel className="tw-block tw-text-[12px]  tw-mb-1 tw-font-medium tw-leading-[24px] tw-tracking-[-0.025em] tw-text-left tw-text-[#030303]">
+                  <FormLabel className="tw-block tw-text-[12px]  tw-mb-1 tw-font-medium tw-leading-[24px] tw-tracking-[-0.025em] tw-text-left tw-text-black">
                     Address
                   </FormLabel>
                   <Input
                     type="text"
                     placeholder="Address"
-                    className="tw-w-[330px] tw-h-[40px] tw-radius-[4px] tw-text-[#070707]"
+                    className="tw-w-[330px] tw-h-[40px] tw-radius-[4px] tw-text-black"
                     {...formInstance.register("address")}
                     onChange={() => clearErrors("address")}
                   />
@@ -244,13 +232,13 @@ function UserAddPage() {
                 </div>
               </div>
               <div className="tw-w-[340px] tw-h-[46px] tw-gap-[8px] tw-ml-[1px] tw-mt-9">
-                <FormLabel className="tw-block tw-text-[12px]  tw-mb-1 tw-font-medium tw-leading-[24px] tw-tracking-[-0.025em] tw-text-left tw-text-[#030303]">
+                <FormLabel className="tw-block tw-text-[12px]  tw-mb-1 tw-font-medium tw-leading-[24px] tw-tracking-[-0.025em] tw-text-left tw-text-black">
                   Pincode
                 </FormLabel>
                 <Input
                   type="text"
                   placeholder="Pincode"
-                  className="tw-w-[330px] tw-h-[40px] tw-radius-[4px] tw-text-[#070707]"
+                  className="tw-w-[330px] tw-h-[40px] tw-radius-[4px] tw-text-black"
                   {...formInstance.register("pincode")}
                   onChange={() => clearErrors("pincode")}
                 />
@@ -291,7 +279,6 @@ function UserAddPage() {
             </div>
           </form>
         </Form>
-                    {/* <div className="tw-w-[1000px]"> */}
         <AlertDialog open={isDialogOpen} onOpenChange={setIsDialogOpen}>
           <AlertDialogContent className="tw-w-[280px] tw-h-[240px]">
           <div className="tw-ml-[210px]">
@@ -304,7 +291,6 @@ function UserAddPage() {
               <AlertDialogTitle className="tw-text-lg tw-ml-[80px] tw-mt-2 tw-font-semibold">Completed</AlertDialogTitle>
               <AlertDialogDescription className="tw-text-center tw-text-sm tw-mt-2 tw-w-[250px]">
                 We have successfully registered the organization details
-                {/* User can click the link to reset the password. */}
               </AlertDialogDescription>
             </AlertDialogHeader>
             <AlertDialogFooter className="tw-w-[200px] tw-pt-0 tw-ml-[10px]">

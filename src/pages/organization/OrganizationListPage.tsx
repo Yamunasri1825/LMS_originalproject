@@ -281,31 +281,22 @@ const UserListPage = () => {
         return true;
     }
   };
-
   const filteredUsers = users.filter(filterUsers);
-
   const indexOfLastUser = currentPage * usersPerPage;
   const indexOfFirstUser = indexOfLastUser - usersPerPage;
   const currentUsers = filteredUsers.slice(indexOfFirstUser, indexOfLastUser);
-
   const totalPages = Math.ceil(filteredUsers.length / usersPerPage);
-
-
   const handlePageChange = (pageNumber) => {
     setCurrentPage(pageNumber);
   };
-
   if (currentView === 'add') {
     return <OrganizationAddPage />;
   }
-
-
   const tableHeight = Math.min(currentUsers.length * 105, 550);
-
   return (
     <div className="tw-p-8 tw-pl-0 tw-bg-colors tw-overflow-hidden">
       <div className="tw-flex tw-justify-between tw-items-center tw-mb-4">
-        <div className="tw-flex tw-gap-2 tw-w-[550px]">
+        <div className="tw-flex tw-gap-2 tw-w-[650px]">
           <Select onValueChange={setFilterField}>
             <SelectTrigger className="tw-bg-white tw-h-[33px] tw-w-[149px] tw-text-primary tw-border-primary">
               <SelectValue placeholder="Filter" />
@@ -318,7 +309,6 @@ const UserListPage = () => {
               <SelectItem value="State">State</SelectItem>
             </SelectContent>
           </Select>
-
           <Select onValueChange={setFilterCondition}>
             <SelectTrigger className="tw-bg-white tw-h-[35px] tw-w-[149px] tw-text-primary tw-border-primary">
               <SelectValue placeholder="Contains" />
@@ -329,10 +319,9 @@ const UserListPage = () => {
               <SelectItem value="contains">Contains</SelectItem>
             </SelectContent>
           </Select>
-
           <div>
             <Input
-              className="tw-bg-white tw-h-[35px] tw-w-[280px] tw-left-[2px]  tw-border-primary"
+              className="tw-bg-white tw-h-[35px] tw-w-[210px] tw-left-[2px]  tw-border-primary"
               type="text"
               placeholder="Write"
               value={filterQuery}

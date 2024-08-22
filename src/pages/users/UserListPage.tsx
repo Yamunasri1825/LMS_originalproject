@@ -187,7 +187,7 @@ const UserListPage = () => {
   return (
     <div className="tw-p-8 tw-pl-0  tw-overflow-hidden">
     <div className="tw-flex tw-justify-between tw-items-center tw-mb-4">
-      <div className="tw-flex tw-gap-2 tw-w-[550px]">
+      <div className="tw-flex tw-gap-2 !tw-w-[650px]">
         <Select onValueChange={setFilterField}>
           <SelectTrigger className="tw-bg-white tw-h-[33px] tw-w-[145px] tw-text-primary tw-border-primary">
             <SelectValue placeholder="Filter" />
@@ -213,7 +213,7 @@ const UserListPage = () => {
 
         <div>
           <Input
-            className="tw-bg-white tw-h-[35px] tw-w-[280px] tw-left-[2px]  tw-border-primary"
+            className="tw-bg-white tw-h-[35px] tw-w-[210px] tw-left-[2px]  tw-border-primary"
             type="text"
             placeholder="Write"
             value={filterQuery}
@@ -238,7 +238,7 @@ const UserListPage = () => {
         </div>
       </div>
 
-      <div className="tw-overflow-hidden tw-bg-white tw-shadow-md tw-rounded-lg">
+      <div className="tw-overflow-hidden tw-bg-white tw-shadow-md t-rounded-lg">
         <Table className={`tw-overflow-y-auto`} style={{ height: tableHeight }}>
           <TableHeader className="tw-p-4 tw-text-center tw-bg-[#FFDF9B]">
             <TableRow>
