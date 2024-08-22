@@ -101,6 +101,18 @@ function UserAddPage() {
   };
   const closeAlertDialog = () => {
     setIsDialogOpen(false);
+    reset({
+      fullName: "",
+      contactDetails: {
+        dialingCode: "",
+        phone: "",
+      },
+      emailAddress: "",
+      organizationId: "",
+      address: "",
+      pincode: "",
+      state:"",
+    });
   };
   return (
     <>
@@ -280,30 +292,33 @@ function UserAddPage() {
           </form>
         </Form>
         <AlertDialog open={isDialogOpen} onOpenChange={setIsDialogOpen}>
+        <div className="tw-w-[500px] tw-h-[400px]">
           <AlertDialogContent className="tw-w-[280px] tw-h-[240px]">
-          <div className="tw-ml-[210px]">
+          <div className="tw-ml-[460px]">
                   <X size={16} className="tw-text-gray-500 tw-cursor-pointer " onClick={closeAlertDialog} />
                 </div>
-                <div className="tw-ml-[90px] tw-mt-[-15px]">
+                <div className="tw-ml-[190px] tw-mt-[-10px]">
                   <CircleCheck className="tw-text-green-500" size={60} />
                 </div>
             <AlertDialogHeader className="tw-mt-[-20px] tw-text-center">
-              <AlertDialogTitle className="tw-text-lg tw-ml-[80px] tw-mt-2 tw-font-semibold">Completed</AlertDialogTitle>
-              <AlertDialogDescription className="tw-text-center tw-text-sm tw-mt-2 tw-w-[250px]">
+              <AlertDialogTitle className="tw-text-lg  tw-ml-[180px] tw-font-semibold">Completed</AlertDialogTitle>
+              <AlertDialogDescription className="tw-text-center tw-text-sm tw-mt-2">
                 We have successfully registered the organization details
+                {/* User can click the link to reset the password. */}
               </AlertDialogDescription>
             </AlertDialogHeader>
-            <AlertDialogFooter className="tw-w-[200px] tw-pt-0 tw-ml-[10px]">
+            <AlertDialogFooter className="tw-w-full tw-pt-0 tw-ml-[-180px] ">
               <AlertDialogAction
                 onClick={closeAlertDialog}
-                className="tw-bg-blue-500 tw-text-white tw-w-[150px] tw-mt-[-8px] tw-h-[38px] tw-mr-[18px] tw-rounded-md tw-text-center"
+               className="tw-bg-blue-500 tw-text-white tw-w-[150px] tw-h-[38px] tw-pl-2 tw-rounded-md tw-text-center"
               >
                 Continue
               </AlertDialogAction>
             </AlertDialogFooter>
           </AlertDialogContent>
+          </div>
         </AlertDialog>
-        {/* </div> */}
+     
       </div>
     </>
   );

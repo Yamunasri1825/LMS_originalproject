@@ -161,10 +161,27 @@ function UserAddPage() {
      
     } else {
       alert("Please select a course.");
+      
     }
   };
   const closeAlertDialog = () => {
     setIsDialogOpen(false);
+    reset({
+      studentId: "",
+      fullName: "",
+      gender: " Male",
+      primaryEmailId: "",
+      institutionEmailId: "",
+      contactDetails: {
+        dialingCode: "",
+        phone: "",
+      },
+      dob: null,
+      batch: "",
+      organization: "",
+      apsche: "Yes",
+      status: "active",
+    });
   };
 
 
@@ -475,24 +492,24 @@ function UserAddPage() {
 
       <AlertDialog open={isDialogOpen} onOpenChange={setIsDialogOpen}>
           <AlertDialogContent className="tw-w-[400px] tw-h-[275px]">
-          <div className="tw-ml-[340px] tw-justify-end">
+          <div className="tw-ml-[440px] tw-justify-end">
                   <X size={16} className="tw-text-gray-500 tw-cursor-pointer" onClick={closeAlertDialog} />
                 </div>
-                <div className="tw-ml-[135px] tw-mt-[-22px]">
+                <div className="tw-ml-[185px] tw-mt-[-22px]">
                   <CircleCheck className="tw-text-green-500" size={60} />
                 </div>
                 <div className="tw-w-[450px]">
             <AlertDialogHeader className="tw-mt-[-20px] tw-text-center">
-              <AlertDialogTitle className="tw-text-lg tw-ml-[80px] tw-mt-2 tw-text-primary tw-font-semibold">Student Authentication</AlertDialogTitle>
-              <AlertDialogDescription className="tw-text-center tw-text-sm tw-mt-2 tw-w-[350px]">
+              <AlertDialogTitle className="tw-text-lg tw-ml-[120px] tw-mt-2 tw-text-primary tw-font-semibold">Student Authentication</AlertDialogTitle>
+              <AlertDialogDescription className="tw-text-center tw-ml-10 tw-text-sm tw-mt-2 tw-w-[350px]">
                 We will share a link at <span className="tw-font-bold">Studentname@gmail.com</span> Student can click the link to reset password
                 {/* User can click the link to reset the password. */}
               </AlertDialogDescription>
             </AlertDialogHeader>
-            <AlertDialogFooter className="tw-w-[200px] tw-pt-0 tw-ml-[65px] tw-mt-4">
+            <AlertDialogFooter className="tw-w-[200px] tw-pt-0 tw-ml-[99px] tw-mt-4">
               <AlertDialogAction
                 onClick={closeAlertDialog}
-                className="tw-bg-blue-500 tw-text-white tw-w-[150px] tw-mt-[8px] tw-h-[38px] tw-mr-[18px] tw-rounded-md tw-text-center"
+                className="tw-bg-blue-500 tw-text-white tw-w-[150px] tw-mt-[8px] tw-h-[38px] tw-mr-[1px] tw-rounded-md tw-pl-0"
               >
                 Continue
               </AlertDialogAction>

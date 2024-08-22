@@ -1,4 +1,3 @@
-//add user page
 import * as React from "react";
 import { Separator } from "@/components/ui/separator"
 import { useState, useEffect } from "react";
@@ -126,6 +125,18 @@ function UserAddPage() {
 
   const closeAlertDialog = () => {
     setIsDialogOpen(false);
+    reset({
+      fullName: "",
+      contactDetails: {
+        dialingCode: "",
+        phone: "",
+      },
+      emailAddress: "",
+      company: "",
+      designation: "",
+      joiningDate: undefined,
+      status: "active",
+    });
   };
 
   
@@ -364,29 +375,32 @@ function UserAddPage() {
               Submit
             </Button>
             <AlertDialog open={isDialogOpen} onOpenChange={setIsDialogOpen}>
-  <AlertDialogContent className="tw-w-[333px] tw-h-[244px] tw-px-6 tw-py-4 tw-flex tw-flex-col tw-items-center">
-    <div className="tw-ml-[280px]">
+              <div className="tw-w-[500px] tw-h-[400px]">
+  <AlertDialogContent>
+    <div className="tw-ml-[460px]">
+  {/* <X  size={15} className="tw-text-gray-500"/> */}
   <X size={15} className="tw-text-gray-500 tw-cursor-pointer" onClick={closeAlertDialog} />
   </div>
-    <div className="tw-ml-[108px]">
+    <div className="tw-ml-[190px] tw-mt-[-10px]">
     <CircleCheck className="tw-text-green-500" size={60} />
     </div>
     <AlertDialogHeader className="tw-mt-[-20px] tw-text-center">
-      <AlertDialogTitle className="tw-text-lg tw-text-center tw-font-semibold">Completed</AlertDialogTitle>
+      <AlertDialogTitle className="tw-text-lg tw-text-center tw-ml-[-30px] tw-font-semibold">Completed</AlertDialogTitle>
       <AlertDialogDescription className="tw-text-center tw-text-sm tw-mt-2">
         We will share a link at <span className="tw-font-bold">username@gmail.com</span>. 
         User can click the link to reset password.
       </AlertDialogDescription>
     </AlertDialogHeader>
-    <AlertDialogFooter className="tw-w-full tw-pt-0 tw-ml-[-69px] ">
+    <AlertDialogFooter className="tw-w-full tw-pt-0 tw-ml-[-170px] ">
       <AlertDialogAction
         onClick={closeAlertDialog}
-        className="tw-bg-blue-500 tw-text-white tw-w-[150px] tw-h-[38px] tw-ml-5 tw-rounded-md tw-text-center"
+        className="tw-bg-blue-500 tw-text-white tw-w-[150px] tw-h-[38px] tw-rounded-md tw-text-center tw-pl-0"
       >
         Continue
       </AlertDialogAction>
     </AlertDialogFooter>
   </AlertDialogContent>
+  </div>
 </AlertDialog>
 </form>
         </Form>

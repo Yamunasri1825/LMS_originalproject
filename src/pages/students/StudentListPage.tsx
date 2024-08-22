@@ -205,9 +205,9 @@ const UserListPage = () => {
   return (
     <div className="tw-p-8 tw-pl-0 tw-bg-colors tw-overflow-hidden">
       <div className="tw-flex tw-justify-between tw-items-center tw-mb-4">
-        <div className="tw-flex tw-gap-2 tw-w-[650px]">
+        <div className="tw-flex tw-gap-2 tw-w-[600px]">
           <Select onValueChange={setFilterField}>
-            <SelectTrigger className="tw-bg-white tw-h-[33px] tw-w-[145px] tw-text-primary tw-border-primary">
+            <SelectTrigger className="tw-bg-white tw-h-[33px] tw-w-[155px] tw-text-primary tw-border-primary">
               <SelectValue placeholder="Filter" />
             </SelectTrigger>
             <SelectContent>
@@ -220,7 +220,7 @@ const UserListPage = () => {
           </Select>
 
           <Select onValueChange={setFilterCondition}>
-            <SelectTrigger className="tw-bg-white tw-h-[35px] tw-w-[145px] tw-text-primary tw-border-primary">
+            <SelectTrigger className="tw-bg-white tw-h-[35px] tw-w-[155px] tw-text-primary tw-border-primary">
               <SelectValue placeholder="Contains" />
             </SelectTrigger>
             <SelectContent>
@@ -249,7 +249,7 @@ const UserListPage = () => {
           </a>
           <Link
   to="/students/StudentAdd"
-  className="tw-bg-[#1D1F71] tw-text-[#FFFFFF] tw-text-[13px] tw-h-[35px] hover:tw-bg-primary tw-flex tw-items-center tw-px-2 tw-py-1 tw-rounded"
+  className="tw-bg-primary tw-text-white  hover:tw-bg-primary tw-flex tw-items-center tw-px-2 tw-py-1 tw-rounded"
   onClick={() => setCurrentView('add')}
 >
   <Plus className="tw-h-[25px] tw-w-[15px] tw-mr-1" /> Add Student
