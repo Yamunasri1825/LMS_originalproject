@@ -310,8 +310,6 @@ function UserAddPage() {
                   {...formInstance.register("institutionEmailId")}
                 />
               </div>
-
-              
               <div className="tw-w-[340px]">
                 <FormLabel className="tw-text-[12px]">DOB</FormLabel>
                 <Popover>
@@ -327,8 +325,6 @@ function UserAddPage() {
           value={selectedDate}
           view={view}
           onViewChange={(newView) => setView(newView as unknown as 'month' | 'year')}
-
-          // If you want to toggle views between month and year, you need to handle view changes.
         />
         <div className="tw-mt-2">
           <button onClick={() => setView('month')} className="tw-mr-2">Month</button>
@@ -373,16 +369,12 @@ function UserAddPage() {
       <SelectItem value="batch1">Batch 1</SelectItem>
       <SelectItem value="batch2">Batch 2</SelectItem>
       <SelectItem value="batch3">Batch 3</SelectItem>
-      {/* Add more batch options as needed */}
     </SelectContent>
   </Select>
   <FormMessage className="tw-text-red-500">
     {formState.errors.batch?.message?.toString()}
   </FormMessage>
 </div>
-
-
-
             </div>
 
             <div className="tw-grid tw-grid-cols-2 tw-gap-4 tw-mt-4 ">
@@ -503,7 +495,6 @@ function UserAddPage() {
               <AlertDialogTitle className="tw-text-lg tw-ml-[120px] tw-mt-2 tw-text-primary tw-font-semibold">Student Authentication</AlertDialogTitle>
               <AlertDialogDescription className="tw-text-center tw-ml-10 tw-text-sm tw-mt-2 tw-w-[350px]">
                 We will share a link at <span className="tw-font-bold">Studentname@gmail.com</span> Student can click the link to reset password
-                {/* User can click the link to reset the password. */}
               </AlertDialogDescription>
             </AlertDialogHeader>
             <AlertDialogFooter className="tw-w-[200px] tw-pt-0 tw-ml-[99px] tw-mt-4">

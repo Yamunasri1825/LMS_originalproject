@@ -298,7 +298,7 @@ const UserListPage = () => {
       <div className="tw-flex tw-justify-between tw-items-center tw-mb-4">
         <div className="tw-flex tw-gap-2 tw-w-[600px]">
           <Select onValueChange={setFilterField}>
-            <SelectTrigger className="tw-bg-white tw-h-[33px] tw-w-[155px] tw-text-primary tw-border-primary">
+            <SelectTrigger className="tw-bg-white tw-h-[33px] tw-w-[165px] tw-text-primary tw-border-primary">
               <SelectValue placeholder="Filter" />
             </SelectTrigger>
             <SelectContent>
@@ -310,7 +310,7 @@ const UserListPage = () => {
             </SelectContent>
           </Select>
           <Select onValueChange={setFilterCondition}>
-            <SelectTrigger className="tw-bg-white tw-h-[35px] tw-w-[155px] tw-text-primary tw-border-primary">
+            <SelectTrigger className="tw-bg-white tw-h-[35px] tw-w-[165px] tw-text-primary tw-border-primary">
               <SelectValue placeholder="Contains" />
             </SelectTrigger>
             <SelectContent>

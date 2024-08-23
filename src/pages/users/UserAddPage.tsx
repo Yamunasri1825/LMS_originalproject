@@ -378,7 +378,6 @@ function UserAddPage() {
               <div className="tw-w-[500px] tw-h-[400px]">
   <AlertDialogContent>
     <div className="tw-ml-[460px]">
-  {/* <X  size={15} className="tw-text-gray-500"/> */}
   <X size={15} className="tw-text-gray-500 tw-cursor-pointer" onClick={closeAlertDialog} />
   </div>
     <div className="tw-ml-[190px] tw-mt-[-10px]">

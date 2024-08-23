@@ -207,7 +207,7 @@ const UserListPage = () => {
       <div className="tw-flex tw-justify-between tw-items-center tw-mb-4">
         <div className="tw-flex tw-gap-2 tw-w-[600px]">
           <Select onValueChange={setFilterField}>
-            <SelectTrigger className="tw-bg-white tw-h-[33px] tw-w-[155px] tw-text-primary tw-border-primary">
+            <SelectTrigger className="tw-bg-white tw-h-[33px] tw-w-[165px] tw-text-primary tw-border-primary">
               <SelectValue placeholder="Filter" />
             </SelectTrigger>
             <SelectContent>
@@ -220,7 +220,7 @@ const UserListPage = () => {
           </Select>
 
           <Select onValueChange={setFilterCondition}>
-            <SelectTrigger className="tw-bg-white tw-h-[35px] tw-w-[155px] tw-text-primary tw-border-primary">
+            <SelectTrigger className="tw-bg-white tw-h-[35px] tw-w-[165px] tw-text-primary tw-border-primary">
               <SelectValue placeholder="Contains" />
             </SelectTrigger>
             <SelectContent>
@@ -261,25 +261,25 @@ const UserListPage = () => {
       <Table className={`tw-overflow-y-auto`} style={{ height: tableHeight }}>
           <TableHeader className="tw-p-4 tw-text-center tw-bg-[#FFDF9B]">
             <TableRow>
-              <TableHead className="tw-py-3 tw-px-4 tw-border-b tw-border-gray-300 tw-text-extend tw-font-semibold tw-text-center">
+              <TableHead className="tw-py-3 tw-px-4 tw-border-gray-300 tw-text-extend tw-font-semibold tw-text-center">
                 Student Name
               </TableHead>
-              <TableHead className="tw-py-3 tw-px-4 tw-border-b tw-border-gray-300 tw-text-extend tw-font-semibold tw-text-center">
+              <TableHead className="tw-py-3 tw-px-4 tw-border-gray-300 tw-text-extend tw-font-semibold tw-text-center">
                 Email Address
               </TableHead>
-              <TableHead className="tw-py-3 tw-px-4 tw-border-b tw-border-gray-300 tw-text-extend tw-font-semibold tw-text-center">
+              <TableHead className="tw-py-3 tw-px-4 tw-border-gray-300 tw-text-extend tw-font-semibold tw-text-center">
                 Mentor
               </TableHead>
-              <TableHead className="tw-py-3 tw-px-4 tw-border-b tw-border-gray-300 tw-text-extend tw-font-semibold tw-text-center">
+              <TableHead className="tw-py-3 tw-px-4 tw-border-gray-300 tw-text-extend tw-font-semibold tw-text-center">
                 Organization
               </TableHead>
-              <TableHead className="tw-py-3 tw-px-4 tw-border-b tw-border-gray-300 tw-text-extend tw-font-semibold tw-text-center">
+              <TableHead className="tw-py-3 tw-px-4 tw-border-gray-300 tw-text-extend tw-font-semibold tw-text-center">
                 Program
               </TableHead>
-              <TableHead className="tw-py-3 tw-px-4 tw-border-b tw-border-gray-300 tw-text-extend tw-font-semibold tw-text-center">
+              <TableHead className="tw-py-3 tw-px-4 tw-border-gray-300 tw-text-extend tw-font-semibold tw-text-center">
                 Status
               </TableHead>
-              <TableHead className="tw-py-3 tw-px-4 tw-border-b tw-border-gray-300 tw-text-extend tw-font-semibold tw-text-center">
+              <TableHead className="tw-py-3 tw-px-4 tw-border-gray-300 tw-text-extend tw-font-semibold tw-text-center">
                 Action
               </TableHead>
             </TableRow>
@@ -301,10 +301,6 @@ const UserListPage = () => {
     {user.status}
   </span>
 </TableCell>
-
-
-
-
                 <TableCell className="tw-py-3 tw-px-4 tw-text-center">
                   <button
                     className="tw-w-5 tw-h-4 tw-flex tw-ml-6 tw-justify-center tw-bg-transparent tw-border-none tw-cursor-pointer"
